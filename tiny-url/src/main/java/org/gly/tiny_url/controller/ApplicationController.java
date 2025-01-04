@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class ApplicationController {
 
 
+    @Autowired
     private UrlMappingsService urlMappingsService;
 
-    public ApplicationController(UrlMappingsService urlMappingsService){
-        this.urlMappingsService = urlMappingsService;
-    }
+//    public ApplicationController(UrlMappingsService urlMappingsService){
+//        this.urlMappingsService = urlMappingsService;
+//    }
 
     @PostMapping("/getTinyUrl")
     public Url getTinyUrl(@RequestBody Url longUrl){
@@ -27,11 +28,6 @@ public class ApplicationController {
 
     @GetMapping("/getLongUrl/{shortUrl}")
     public ResponseEntity<Url> getTinyUrl(@PathVariable String shortUrl) throws Exception {
-        // also just in case they pass id in JSON ... set id to 0
-        // this is to froce save of new item ... instead of update
-//        theEmployee.setId(0);
-//        Employee dbEmployee = employeeService.save(theEmployee);
-//        return dbEmployee;
         Url longUrl = urlMappingsService.getLongUrl(shortUrl);
         if(longUrl==null)
             return ResponseEntity.internalServerError().body(new Url("invalid short url", Constants.UNKNOWN_TYPE));

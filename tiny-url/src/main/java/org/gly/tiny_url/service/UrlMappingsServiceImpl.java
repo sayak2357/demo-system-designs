@@ -21,12 +21,19 @@ public class UrlMappingsServiceImpl implements UrlMappingsService{
         String hash = hashService.getHash(longUrl, hashLength);
         Url response = new Url(hash, Constants.SHORT_TYPE);
         UrlMappings existing = urlMappingsRepository.findByTinyUrl(hash);
-        while(existing!=null){
+        String oldLongUrl = existing.getLongUrl();
+        while(existing!=null && !oldLongUrl.equals(longUrl)){
             hash = hashService.getHash(longUrl, ++hashLength);
             existing = urlMappingsRepository.findByTinyUrl(hash);
+            oldLongUrl = existing.getLongUrl();
         }
-        UrlMappings newUrlMapping = new UrlMappings(longUrl,hash);
-        urlMappingsRepository.save(newUrlMapping);
+        if(oldLongUrl.equals(longUrl)){
+            response.setUrl(hash);
+        }
+        if(existing==null) {
+            UrlMappings newUrlMapping = new UrlMappings(longUrl, hash);
+            urlMappingsRepository.save(newUrlMapping);
+        }
         return response;
     }
 
