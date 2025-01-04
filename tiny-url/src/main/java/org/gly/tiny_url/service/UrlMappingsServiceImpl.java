@@ -17,13 +17,16 @@ public class UrlMappingsServiceImpl implements UrlMappingsService{
 
     @Override
     public Url getShortUrl(String longUrl) {
-        String hash = hashService.getHash(longUrl);
+        Integer hashLength = Constants.SHORT_URL_LENGTH;
+        String hash = hashService.getHash(longUrl, hashLength);
         Url response = new Url(hash, Constants.SHORT_TYPE);
         UrlMappings existing = urlMappingsRepository.findByTinyUrl(hash);
-        if(existing==null){
-            UrlMappings newUrlMapping = new UrlMappings(longUrl,hash);
-            urlMappingsRepository.save(newUrlMapping);
+        while(existing!=null){
+            hash = hashService.getHash(longUrl, ++hashLength);
+            existing = urlMappingsRepository.findByTinyUrl(hash);
         }
+        UrlMappings newUrlMapping = new UrlMappings(longUrl,hash);
+        urlMappingsRepository.save(newUrlMapping);
         return response;
     }
 

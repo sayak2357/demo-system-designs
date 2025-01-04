@@ -13,7 +13,7 @@ public class MD5Hash implements HashService{
 
 
     @Override
-    public String getHash(String input)
+    public String getHash(String input, Integer hashLength)
     {
         try {
 
@@ -32,7 +32,7 @@ public class MD5Hash implements HashService{
             while (hashtext.length() < 32) {
                 hashtext = "0" + hashtext;
             }
-            return getCustomHashValue(hashtext);
+            return getCustomHashValue(hashtext, hashLength);
         }
 
         // For specifying wrong message digest algorithms
@@ -40,7 +40,7 @@ public class MD5Hash implements HashService{
             throw new RuntimeException(e);
         }
     }
-    public String getCustomHashValue(String hash){
+    public String getCustomHashValue(String hash, Integer hashLength){
         String s = hash;
         byte[] bytes = s.getBytes();
      //   StringBuilder binary = new StringBuilder();
@@ -57,7 +57,7 @@ public class MD5Hash implements HashService{
            String binaryString = binary.toString();
             Integer idx = Integer.parseInt(binaryString,2);
             res.append(Constants.DICTIONARY[idx]);
-            if(res.length()==Constants.SHORT_URL_LENGTH)
+            if(res.length()==hashLength)
                 break;
         }
         return res.toString();

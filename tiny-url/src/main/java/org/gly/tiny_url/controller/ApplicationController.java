@@ -21,11 +21,6 @@ public class ApplicationController {
 
     @PostMapping("/getTinyUrl")
     public Url getTinyUrl(@RequestBody Url longUrl){
-        // also just in case they pass id in JSON ... set id to 0
-        // this is to froce save of new item ... instead of update
-//        theEmployee.setId(0);
-//        Employee dbEmployee = employeeService.save(theEmployee);
-//        return dbEmployee;
         Url tinyUrl = urlMappingsService.getShortUrl(longUrl.getUrl());
         return tinyUrl;
     }
@@ -40,6 +35,6 @@ public class ApplicationController {
         Url longUrl = urlMappingsService.getLongUrl(shortUrl);
         if(longUrl==null)
             return ResponseEntity.internalServerError().body(new Url("invalid short url", Constants.UNKNOWN_TYPE));
-        return ResponseEntity.accepted().body(longUrl);
+        return ResponseEntity.status(200).body(longUrl);
     }
 }
