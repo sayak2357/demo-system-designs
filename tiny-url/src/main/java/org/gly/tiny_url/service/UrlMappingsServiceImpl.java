@@ -21,7 +21,7 @@ public class UrlMappingsServiceImpl implements UrlMappingsService{
         String hash = hashService.getHash(longUrl, hashLength);
         Url response = new Url(hash, Constants.SHORT_TYPE);
         UrlMappings existing = urlMappingsRepository.findByTinyUrl(hash);
-        String oldLongUrl = existing.getLongUrl();
+        String oldLongUrl = existing!=null ? existing.getLongUrl() : Constants.EMPTY_STRING;
         while(existing!=null && !oldLongUrl.equals(longUrl)){
             hash = hashService.getHash(longUrl, ++hashLength);
             existing = urlMappingsRepository.findByTinyUrl(hash);

@@ -1,22 +1,38 @@
 APIS:
 
 1) Get Tiny Url
+
+request:
 curl --location 'http://localhost:8080/api/getTinyUrl' \
 --header 'Content-Type: application/json' \
 --data '{
     "type": "LONG",
-    "url": "www.youtube.com/sayak-chowdhury"
+    "url": "github.com/sayak2357"
 }'
+
+response:
+{
+    "url": "mmnnzzyn",
+    "type": "SHORT"
+}
 
 
 
 2) Get Long Url
-curl --location --request GET 'http://localhost:8080/api/getLongUrl/omoyzzmy' \
+
+request:
+curl --location --request GET 'http://localhost:8080/api/getLongUrl/mmnnzzyn' \
 --header 'Content-Type: application/json' \
 --data '{
     "type": "LONG",
     "url": "www.google.co.in"
 }'
+
+response:
+{
+    "url": "github.com/sayak2357",
+    "type": "LONG"
+}
 
 
 
@@ -30,4 +46,4 @@ Working:
 
 Performance:
 # 8 characters each having 64 options. In other words 64^8 shortUrls supported with length before it's increased to 9.
-# With 1000 requests per second, takes more than 9000 years for exhausting all 8 chars long short-url.
+# With 1000 requests per second, takes more than 9000 years for exhausting all 8 chars long short-urls.
