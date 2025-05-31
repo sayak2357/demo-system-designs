@@ -18,6 +18,10 @@ public class UrlMappingsServiceImpl implements UrlMappingsService{
     @Override
     public Url getShortUrl(String longUrl) {
         Integer hashLength = Constants.SHORT_URL_LENGTH;
+        UrlMappings existingMapping = urlMappingsRepository.findByLongUrl(longUrl);
+        if(existingMapping!=null){
+            return new Url(existingMapping.getTinyUrl(), Constants.SHORT_TYPE);
+        }
         String hash = hashService.getHash(longUrl, hashLength);
         Url response = new Url(hash, Constants.SHORT_TYPE);
         UrlMappings existing = urlMappingsRepository.findByTinyUrl(hash);
@@ -25,9 +29,9 @@ public class UrlMappingsServiceImpl implements UrlMappingsService{
         while(existing!=null && !oldLongUrl.equals(longUrl)){
             hash = hashService.getHash(longUrl, ++hashLength);
             existing = urlMappingsRepository.findByTinyUrl(hash);
-            oldLongUrl = existing.getLongUrl();
+            oldLongUrl = existing!=null ? existing.getLongUrl():null;
         }
-        if(oldLongUrl.equals(longUrl)){
+        if(longUrl.equals(oldLongUrl)){
             response.setUrl(hash);
         }
         if(existing==null) {

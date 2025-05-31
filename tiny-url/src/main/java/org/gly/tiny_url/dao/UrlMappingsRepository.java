@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UrlMappingsRepository extends JpaRepository<UrlMappings, Integer> {
     UrlMappings findByTinyUrl(String hash);
+    UrlMappings findByLongUrl(String tinyUrl);
 }
