@@ -1,0 +1,7 @@
+# Users should be able to create tasks and subtasks of type Bug, Story and Feature.
+# Each task can have their status (Open, In Progress, Closed).
+# Tasks can have subtract(description)
+# User should be able to change status of tasks.
+# User should be able to create Sprint.
+# User should be able to add tasks and subtasks to Spring.
+# User should be able to print Sprint details, delayed tasks, task assigned to user.

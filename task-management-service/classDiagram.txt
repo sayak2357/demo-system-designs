@@ -1,0 +1,29 @@
+|   Sprint                         |               |        Task                   |         |   Subtask           |
+|- begin: int                      |               | -id:int                       |         | -id:int             |
+|- end:   int                      |               | -subtract:String              |         | -subtract:String    |
+|- name: String                    |               | +subtaskList: List<Subtask>   |         | + user:user         |
+|- tasks: ArrayList<Task>          |-------------<>| + user: User                  |------<> | + taskType:   enum  |
+|+ addTask:void                    |               | + taskType: enum              |         | + taskStatus: enum  |
+|+ printDetails(): void            |               | + taskStatus: enum            |         | + getId():          |
+|+ getTasks(): ArrayList<Task>     |               | + getId():int                 |         | + setSubtract()     |
+|+ eraseTask():void                |               | + setSubtract(): void         |         | + setTaskStatus()   |
+____________________________________               | + setTaskStatus():void        |         | + setTaskType()     |
+                |                                  | + setTaskType(): void         |         | + setUser(0         |
+                |                                  | + setUser():void              |         |_____________________|
+                |                                  |_______________________________|
+                |                                             |
+___________________________________                           |
+|           User                   |                          |
+|__________________________________|                          |
+| + name:                          |                          |
+| + taskList:List<Task>            |                          |
+| + sprintList: List<Sprint>       |---------------------------
+|                                  |
+| + createTask(): Task             |
+| + createSprint(): Sprint         |
+| + removeFromSprint(): boolean    |
+| + addToSprint(): boolean         |                                   ____________
+| + printAllTasks(): void          |                                   | <Enum>   |               -----------
+| + changeStatus(): boolean        |                                   |TaskStatus|               | <Enum>   |
+|__________________________________|                                    -----------               | TaskType |
+                                                                                                  | _________|
