@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        System.out.println("Hello and welcome!");
         UserService userService = new UserService();
         User sayak = new User("Sayak");
         User akash = new User("Akash");
@@ -23,6 +23,8 @@ public class Main {
         ExpenseService expenseService = new ExpenseService(userService);
         Split newSplit = new Split(sayak.getId(),100, Arrays.asList(akash.getId(),sayak.getId()), SplitType.EQUAL);
         expenseService.addExpense(newSplit);
+        Split newSplit2 = new Split(akash.getId(), 200,Arrays.asList(sayak.getId()),SplitType.EXACT);
+        expenseService.addExpense(newSplit2);
         expenseService.showBalances();
     }
 }

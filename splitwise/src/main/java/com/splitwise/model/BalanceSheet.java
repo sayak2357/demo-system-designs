@@ -13,8 +13,15 @@ public class BalanceSheet {
         if(!this.balances.containsKey(borrowerId)){
             this.balances.put(borrowerId,new HashMap<>());
         }
-        this.balances.get(borrowerId).put(lenderId,this.balances.get(borrowerId).getOrDefault(lenderId,0d)+amount);
-
+        double reverseOwe = 0d;
+        reverseOwe = balances.containsKey(lenderId) ? balances.get(lenderId).containsKey(borrowerId)? balances.get(lenderId).get(borrowerId):0d:0d;
+        double netForwardOwe = Math.max(0,amount-reverseOwe);
+        reverseOwe = Math.max(0,reverseOwe-amount);
+        this.balances.get(borrowerId).put(lenderId,this.balances.get(borrowerId).getOrDefault(lenderId,0d)+netForwardOwe);
+        if(!this.balances.containsKey(lenderId)){
+            this.balances.put(lenderId,new HashMap<>());
+        }
+        this.balances.get(lenderId).put(borrowerId,reverseOwe);
     }
 
     public Map<Integer, Map<Integer, Double>> getBalances() {

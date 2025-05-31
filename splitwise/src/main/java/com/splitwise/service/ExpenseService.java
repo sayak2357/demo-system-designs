@@ -15,19 +15,20 @@ public class ExpenseService {
         this.userService = userService;
     }
     public void addExpense(Split split){
-        double amoutn = split.getAmount();
+        double amount = split.getAmount();
         List<Integer> beneficiaryIds = split.getBeneficiaryIds();
         int lenderId = split.getPaidUserId();
         SplitType splitType = split.getSplitType();
         switch(splitType){
             case EQUAL: int size = beneficiaryIds.size();
-                        double share = amoutn/size;
+                        double share = amount/size;
                         for(int borrowerId:beneficiaryIds){
                             if(borrowerId!=lenderId){
                                 this.balanceSheet.addExpense(lenderId,borrowerId,share);
                             }
                         }
                         break;
+            case EXACT: this.balanceSheet.addExpense(lenderId,beneficiaryIds.get(0),amount);
         }
     }
     public void showBalances(){
@@ -37,7 +38,8 @@ public class ExpenseService {
                 double amount = balances.get(borrowerId).get(lenderId);
                 String borrowerName = userService.getUser(borrowerId).getName();
                 String lenderName = userService.getUser(lenderId).getName();
-                System.out.println(borrowerName+" owes an amount of "+amount+" to "+lenderName);
+                if(amount>0d)
+                    System.out.println(borrowerName+" owes an amount of "+amount+" to "+lenderName);
             }
         }
     }
