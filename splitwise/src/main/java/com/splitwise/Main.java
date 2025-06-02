@@ -1,8 +1,6 @@
 package com.splitwise;
 
-import com.splitwise.model.Split;
-import com.splitwise.model.SplitType;
-import com.splitwise.model.User;
+import com.splitwise.model.*;
 import com.splitwise.service.ExpenseService;
 import com.splitwise.service.UserService;
 
@@ -21,9 +19,9 @@ public class Main {
         userService.addUser(sayak);
         userService.addUser(akash);
         ExpenseService expenseService = new ExpenseService(userService);
-        Split newSplit = new Split(sayak.getId(),100, Arrays.asList(akash.getId(),sayak.getId()), SplitType.EQUAL);
+        Split newSplit = new EqualSplit(sayak.getId(),100, Arrays.asList(akash.getId(),sayak.getId()));
         expenseService.addExpense(newSplit);
-        Split newSplit2 = new Split(akash.getId(), 200,Arrays.asList(sayak.getId()),SplitType.EXACT);
+        Split newSplit2 = new ExactSplit(akash.getId(), 200,Arrays.asList(sayak.getId()));
         expenseService.addExpense(newSplit2);
         expenseService.showBalances();
     }
