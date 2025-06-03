@@ -1,6 +1,7 @@
 package com.splitwise.service;
 
 import com.splitwise.model.BalanceSheet;
+import com.splitwise.model.PercentageSplit;
 import com.splitwise.model.Split;
 import com.splitwise.model.SplitType;
 
@@ -19,16 +20,28 @@ public class ExpenseService {
         List<Integer> beneficiaryIds = split.getBeneficiaryIds();
         int lenderId = split.getPaidUserId();
         SplitType splitType = split.getSplitType();
+        int size;
+        double share,percentage;
         switch(splitType){
-            case EQUAL: int size = beneficiaryIds.size();
-                        double share = amount/size;
+            case EQUAL: size = beneficiaryIds.size();
+                        share = amount/size;
                         for(int borrowerId:beneficiaryIds){
                             if(borrowerId!=lenderId){
                                 this.balanceSheet.addExpense(lenderId,borrowerId,share);
                             }
                         }
                         break;
-            case EXACT: this.balanceSheet.addExpense(lenderId,beneficiaryIds.get(0),amount);
+            case EXACT: this.balanceSheet.addExpense(lenderId,beneficiaryIds.get(0),amount);break;
+            case PERCENTGE: percentage = ((PercentageSplit) split).getPercentage();
+                            size = beneficiaryIds.size();
+                            share = amount*percentage/100;
+                            for(int borrowerId:beneficiaryIds){
+                                if(borrowerId!=lenderId){
+                                    this.balanceSheet.addExpense(lenderId,borrowerId,share);
+                                }
+                            }
+                            break;
+
         }
     }
     public void showBalances(){
