@@ -7,6 +7,7 @@ import com.splitwise.model.SplitType;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ExpenseService {
     //private BalanceSheet balanceSheet;
@@ -48,12 +49,14 @@ public class ExpenseService {
     }
 
     public void showBalancesImproved(){
-        Map<String, Double> balanceMap = this.balanceSheetService.getBalanceMap();
-        for(String borrowerHashLender:balanceMap.keySet()){
+
+        Set<String> borrowerHashLenderKeys = this.balanceSheetService.getKeySet();
+
+        for(String borrowerHashLender:borrowerHashLenderKeys){
             String key = borrowerHashLender;
             int borrowerId = Integer.parseInt(key.split("#")[0]);
             int lenderId = Integer.parseInt(key.split("#")[1]);
-            double amount = balanceMap.get(borrowerHashLender);
+            double amount = this.balanceSheetService.fetchBorrowAmount(borrowerId,lenderId);
             String borrowerName = userService.getUser(borrowerId).getName();
             String lenderName = userService.getUser(lenderId).getName();
             if(amount>0d){

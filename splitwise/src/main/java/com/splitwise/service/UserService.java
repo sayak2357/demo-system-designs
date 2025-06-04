@@ -4,6 +4,7 @@ import com.splitwise.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class UserService {
     private Map<Integer, User> userMap;
@@ -16,5 +17,8 @@ public class UserService {
     }
     public User getUser(int userId){
         return this.userMap.getOrDefault(userId,null);
+    }
+    public Set<Integer> getUserIds(){
+        return this.userMap.keySet();
     }
 }
