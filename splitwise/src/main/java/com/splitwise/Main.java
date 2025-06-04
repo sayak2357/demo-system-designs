@@ -26,6 +26,6 @@ public class Main {
 
         Split newSplit3 = new PercentageSplit(sayak.getId(), 200d,Arrays.asList(akash.getId()),30d);
         expenseService.addExpense(newSplit3);
-        expenseService.showBalances();
+        expenseService.showBalancesImproved();
     }
 }

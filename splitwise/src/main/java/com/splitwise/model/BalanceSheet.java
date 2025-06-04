@@ -4,27 +4,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BalanceSheet {
-    private Map<Integer, Map<Integer,Double>> balances; // key: user ids who owes
+
+    private Map<String,Double> balanceMap; // key: user1Id#user2Id, value: amount user1 owes to user2;
 
     public BalanceSheet() {
-        this.balances = new HashMap<>();
-    }
-    public void addExpense(int lenderId,int borrowerId,double amount){
-        if(!this.balances.containsKey(borrowerId)){
-            this.balances.put(borrowerId,new HashMap<>());
-        }
-        double reverseOwe = 0d;
-        reverseOwe = balances.containsKey(lenderId) ? balances.get(lenderId).containsKey(borrowerId)? balances.get(lenderId).get(borrowerId):0d:0d;
-        double netForwardOwe = Math.max(0,amount-reverseOwe);
-        reverseOwe = Math.max(0,reverseOwe-amount);
-        this.balances.get(borrowerId).put(lenderId,this.balances.get(borrowerId).getOrDefault(lenderId,0d)+netForwardOwe);
-        if(!this.balances.containsKey(lenderId)){
-            this.balances.put(lenderId,new HashMap<>());
-        }
-        this.balances.get(lenderId).put(borrowerId,reverseOwe);
+        this.balanceMap = new HashMap<>();
     }
 
-    public Map<Integer, Map<Integer, Double>> getBalances() {
-        return balances;
+    public void addExpenseImproved(int lenderId, int borrowerId, double amount){
+        String key = String.valueOf(borrowerId)+"#"+String.valueOf(lenderId);
+        this.balanceMap.put(key,balanceMap.getOrDefault(key,0d)+amount);
+        rebalance(lenderId,borrowerId);
+    }
+    private void rebalance(int lenderId,int borrowerId){
+        String forwardKey = String.valueOf(borrowerId)+"#"+String.valueOf(lenderId);
+        String reverseKey = String.valueOf(lenderId)+"#"+String.valueOf(borrowerId);
+        double borrrowerOwes = balanceMap.getOrDefault(forwardKey,0d);
+        double lenderOwes = balanceMap.getOrDefault(reverseKey,0d);
+        if(borrrowerOwes>=lenderOwes){
+            Double newBorrowerOweAmount = borrrowerOwes-lenderOwes;
+            balanceMap.put(reverseKey,0d);
+            balanceMap.put(forwardKey,newBorrowerOweAmount);
+        }
+        else{
+            Double newLenderOweAmount = lenderOwes-borrrowerOwes;
+            balanceMap.put(forwardKey,0d);
+            balanceMap.put(reverseKey,newLenderOweAmount);
+        }
+    }
+
+    public Map<String, Double> getBalanceMap() {
+        return balanceMap;
     }
 }

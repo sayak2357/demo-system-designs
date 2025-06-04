@@ -27,33 +27,37 @@ public class ExpenseService {
                         share = amount/size;
                         for(int borrowerId:beneficiaryIds){
                             if(borrowerId!=lenderId){
-                                this.balanceSheet.addExpense(lenderId,borrowerId,share);
+                                this.balanceSheet.addExpenseImproved(lenderId,borrowerId,share);
                             }
                         }
                         break;
-            case EXACT: this.balanceSheet.addExpense(lenderId,beneficiaryIds.get(0),amount);break;
+            case EXACT: this.balanceSheet.addExpenseImproved(lenderId,beneficiaryIds.get(0),amount);break;
             case PERCENTGE: percentage = ((PercentageSplit) split).getPercentage();
                             size = beneficiaryIds.size();
                             share = amount*percentage/100;
                             for(int borrowerId:beneficiaryIds){
                                 if(borrowerId!=lenderId){
-                                    this.balanceSheet.addExpense(lenderId,borrowerId,share);
+                                    this.balanceSheet.addExpenseImproved(lenderId,borrowerId,share);
                                 }
                             }
                             break;
 
         }
     }
-    public void showBalances(){
-        Map<Integer, Map<Integer,Double>> balances = this.balanceSheet.getBalances();
-        for(Integer borrowerId:balances.keySet()){
-            for(int lenderId:balances.get(borrowerId).keySet()){
-                double amount = balances.get(borrowerId).get(lenderId);
-                String borrowerName = userService.getUser(borrowerId).getName();
-                String lenderName = userService.getUser(lenderId).getName();
-                if(amount>0d)
-                    System.out.println(borrowerName+" owes an amount of "+amount+" to "+lenderName);
+
+    public void showBalancesImproved(){
+        Map<String, Double> balanceMap = this.balanceSheet.getBalanceMap();
+        for(String borrowerHashLender:balanceMap.keySet()){
+            String key = borrowerHashLender;
+            int borrowerId = Integer.parseInt(key.split("#")[0]);
+            int lenderId = Integer.parseInt(key.split("#")[1]);
+            double amount = balanceMap.get(borrowerHashLender);
+            String borrowerName = userService.getUser(borrowerId).getName();
+            String lenderName = userService.getUser(lenderId).getName();
+            if(amount>0d){
+                System.out.println(borrowerName+" owes an amount of "+amount+" to "+lenderName);
             }
         }
+
     }
 }
