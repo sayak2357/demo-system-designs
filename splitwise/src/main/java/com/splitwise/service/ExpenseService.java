@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ExpenseService {
-    private BalanceSheet balanceSheet;
+    //private BalanceSheet balanceSheet;
     private UserService userService;
+    private BalanceSheetService balanceSheetService;
     public ExpenseService(UserService userService){
-        this.balanceSheet = new BalanceSheet();
+        //this.balanceSheet = new BalanceSheet();
         this.userService = userService;
+        this.balanceSheetService = new BalanceSheetService();
     }
     public void addExpense(Split split){
         double amount = split.getAmount();
@@ -27,17 +29,17 @@ public class ExpenseService {
                         share = amount/size;
                         for(int borrowerId:beneficiaryIds){
                             if(borrowerId!=lenderId){
-                                this.balanceSheet.addExpenseImproved(lenderId,borrowerId,share);
+                                this.balanceSheetService.addExpenseImproved(lenderId,borrowerId,share);
                             }
                         }
                         break;
-            case EXACT: this.balanceSheet.addExpenseImproved(lenderId,beneficiaryIds.get(0),amount);break;
+            case EXACT: this.balanceSheetService.addExpenseImproved(lenderId,beneficiaryIds.get(0),amount);break;
             case PERCENTGE: percentage = ((PercentageSplit) split).getPercentage();
                             size = beneficiaryIds.size();
                             share = amount*percentage/100;
                             for(int borrowerId:beneficiaryIds){
                                 if(borrowerId!=lenderId){
-                                    this.balanceSheet.addExpenseImproved(lenderId,borrowerId,share);
+                                    this.balanceSheetService.addExpenseImproved(lenderId,borrowerId,share);
                                 }
                             }
                             break;
@@ -46,7 +48,7 @@ public class ExpenseService {
     }
 
     public void showBalancesImproved(){
-        Map<String, Double> balanceMap = this.balanceSheet.getBalanceMap();
+        Map<String, Double> balanceMap = this.balanceSheetService.getBalanceMap();
         for(String borrowerHashLender:balanceMap.keySet()){
             String key = borrowerHashLender;
             int borrowerId = Integer.parseInt(key.split("#")[0]);
