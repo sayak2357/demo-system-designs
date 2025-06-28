@@ -1,0 +1,39 @@
+
+Follow-up questions:
+
+1. Can we add fee calculator?
+ans. Add FeeStrategy (flat fee, hourlyFee)
+
+2. How to handle multiple entry gates?
+ans. Add EntryGate class with queue and dispatcher logic.
+
+3. What if I want slot reservation?
+ans. Add SlotStatus:AVAILABLE,RESERVED,OCCUPIED
+
+4. How to persist data?
+ans. Add SlotRepository,TicketRepository
+
+5. Can you handle concurrency?
+ans. Use locks or ConcurrentHashMaps or shared slots.
+
+6. How would you support admins?
+ans. Add AdminService for dynamic lot management.
+
+
+
+Deep dives and V2 ideas:
+
+# Real-time occupancy api:      Add a MintoringService
+# Web dashboard                 Export REST endpoints from service
+# License plate scanning        Add Camera, VehicleDetector class
+# Floor prioritization          Use a SlotAssignmentStrategy Interface
+# Reserved parking slots        Add a flag "isReservers", enhance UI/Logic
+
+
+Summary:
+
+Key classes:                                        Vehicle, ParkingSlot,Ticket,ParkingService
+Design Patterns:                                    Strategy(for free/assignment), SRP, composition
+Key principles used:                                Interface-based design, modular services
+Common mistakes:                                    Mixing lot og logic with slot assignment, hardcoding
+Extensibility hooks:                                Add fee models, reservation, real-time monitoring
