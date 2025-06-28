@@ -1,0 +1,41 @@
+Follow-up questions:
+
+1. Can we support Groups?
+ans. Add Group class with users & expenses.
+
+2. How to undo/delete an expense?
+ans. Track each expense with ID, reverse update
+
+3. What if we want to persist data?
+and. Add repository layer with DB mappings.
+
+4. How to scale this for 1 M users?
+ans. Split services, add DB & use caching.
+
+5. Can we add notification?
+ans. Use Observer pattern with Notifier
+
+6. How to make thread-safe?
+ans. Use ConcurrentHashMaps, locks
+
+
+
+
+
+Deep dive V2 ideas:
+
+Add Group expenses:                                 New Group class + balance tracker by group
+Add recurring expenses                              Add RecurrenceRule in Expense class
+Multi-currency support                              Add CurrencyConverter and currency field
+Settlement support                                  Add Payment entity + transaction history
+Expense categories                                  Add enum Category in Expense
+
+
+
+Summary
+
+Design patters:                                     Strategy Pattern, Composition & SRP
+Key concepts:                                       Interface-first design, split logic abstraction
+Extensibility:                                      Add split types, group feature, DB layer, notifications
+Mistakes to avoid:                                  Tightly coupled logic, skipping abstraction, no testing hooks
+Interview tip:                                      Narrate your flow: "I'll break it into splits, update balances, and keep it modular..."
