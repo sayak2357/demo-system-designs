@@ -1,0 +1,10 @@
+
+
+Class Diagram:
+
+
+User --> City --> Cinema1     --> Hall1         ---> Show1           --> Movie --> Booking
+  |                  Cinema2          Hall2              Show2                        |
+  |                    ....              ....               ....                        < Enum payment type>
+  |
+  <Interface search>

@@ -1,0 +1,39 @@
+Follow-up questions:
+
+
+1. How to prevent double-booking?
+ans. Use synchronization locks, atomic checks, SeatLockManager.
+
+2. Can we support seat holds and timers?
+ans. Add expiry logic in SeatLockManager.
+
+3. How to cancel a booking?
+ans. Add method cancelBooking() and unlock the seats.
+
+4. What if two users select at same time?
+ans. Use optimistic lock--> recheck before final confirmation.
+
+5. Can we scale this?
+ans. Make BookingService stateless and DB-backed.
+
+6. How to show real-time availability?
+ans. Add ShowAvailabilityService with cache and poll mechanism.
+
+
+
+Deep dives and V2 ideas:
+
+# Payments & checkouts          Add PaymentService & bookingStatus enum
+# Email/SMS confirmation        Add Observer pattern or notification service.
+# UI seat map selection         Add seat grid with row/column cor-ordinates
+# Different seat types          Add SeatType enum(Premium,Gold,Silver)
+# Booking cancellation          Store booking status, add refund support.
+
+
+Summary:
+
+Key Concepts                                                                    Seat locks, stateful show mgmt, Thread safet
+Design patterns                                                                 Composition,SRP,optional strategy(for payments)
+Critical classes                                                                Show,Seat,Booking,BookingService
+Common Mistakes                                                                 Not locking seats, no concurrency safeguard
+Extensibility hooks                                                             Payments, refund,show schedule,screen layout

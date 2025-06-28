@@ -1,0 +1,32 @@
+1. How would you support retry with backoff?
+ans. Add retry queue with exponential delay logic.
+
+2. Can we support message scheduling?
+ans. Add a SchedulerService and store notifications with timeStamp.
+
+3. What if one provider fails?
+ans. Add fallback provider logic(Chain of Responsibility).
+
+4. How do you decouple retry logic?
+ans. User a RetryHandler or RetryStrategy class.
+
+5. How to monitor failures?
+ans. User LoggerService, and metrics, failure counts.
+
+
+Deep Dive:
+
+Features:                           Change Required
+1. Delayed Notification             Add ScheduledExecutorService or job queue.
+2. Notification template support    Add NotificationTemplateService
+3. Multi-language support           Add i18n layer on top of message string.
+
+Summary:
+
+
+Field                             Summary
+Key design patterns               Strategy(Channel), Bridge(provider switching)
+Extensibility hooks               Add new channels, retry strategy, multi-provider support
+Core concepts used                Interface segregation, pluggable architecture, retries
+Mistakes to avoid                 Hardcoding channel logic, not retrying on failure
+Ideal interview wrap              "This system is modular, easy to scale, and open to extensions like scheduling or user preferences"
