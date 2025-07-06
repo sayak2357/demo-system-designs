@@ -1,0 +1,39 @@
+
+
+Follow-up questions:
+
+1. How to support payment integration?
+ans. Add PaymentService + OrderPaymentStatus
+
+2. Can you add delivery tracking?
+ans. Add Delivery entity with location and status.
+
+3. What if we accept partial order cancel?
+ans. Add isCancelled flag at item-level in OrderItem
+
+4. How would you scale for 1M users?
+ans. Use DB-backed, CartRepository,OrderRepository
+
+5. What about surge pricing or offers?
+ans. Add PricingService, CouponService, DiscountEngine
+
+
+
+Deep dives & v2
+
+1. Support for items rating :                   Add RatingService and attach rating to MenuItem
+2. Schedule orders:                             Add scheduledTime and use scheduler
+3. Multi-vendor cart:                           Cart must be split per restaurant(multi-cart system)
+4. Notifications:                               Add OrderStatusNotifier using Observer pattern
+
+
+
+
+Summary:
+
+# Key concepts -                                Cart-order modelling, SRP, Enum-based status management
+# Patterns used -                               Composition, Service layer separation
+# Extensibility -                               Add payment, delivery, promotion
+# Common pitfalls -                             Mixing cart/order logic, no item-level abstraction
+# interview tip -                               "I've kept cart and order loosely coupled to allow flexibility in handling abandoned carts, payment retries
+                                                or even scheduled orders"
