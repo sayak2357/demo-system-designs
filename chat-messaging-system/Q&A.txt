@@ -1,0 +1,39 @@
+Followup questions:
+
+1. How to support attachment/media?
+ans. Add ImageMessages & VideoMessages with metadata.
+
+2. How to enable read-receipts in groups?
+ans. User Map<messageId_userId,DeliveryStatus> in GroupChat
+
+3. Can message be edited/deleted?
+ans. Add isEdited, isDeleted flag in MEssage
+
+4. How would ths work across devices?
+ans. Add SessionService to sync messages for same userId
+
+5. What about notification delivery?
+ans. Add NotificationService + Observer pattern
+
+
+
+
+Deep dives & V2 ideas
+
+# Media upload/download             -       Integrate with external media storage (e.g. S3)
+# Group admin conrtols              _       Add GroupAdminService & permissions
+# Message expiry/self-destruct      -       Add TTL field to message
+# Message threading/replies         -       Add replyToMessageId in Message
+# Typing indicators                 -       Maintain active status with ping/timer system
+
+
+
+
+Summary
+
+1. Core concepts                -           Abstraction, composition, SRP, modular chat model
+2. Patterns used                -           Template method(message structure), Strategy(extensions)
+3. Extensibility hooks          -           Status updates, media, threading, encryption
+4. Common pitfalls              -           Tightly coupled message logic, missing status tracking
+5. Ideal interview wrap         -           "This modular design handles real-time delivery & tracking, and can evolve to handle
+                                             encryption, sync, media uploads and user control"
