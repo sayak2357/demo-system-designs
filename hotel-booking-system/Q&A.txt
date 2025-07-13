@@ -1,0 +1,37 @@
+# Follow up questions:
+
+1. How to support filters (price/type) ?
+ans. Add filter condition in search logic
+
+2. Can user cancel or modify booking?
+ans. Add cancel() + modifyDates() method in Booking
+
+3. How to avoid overlapping booking?
+ans. Lock room availability in book() (sync/blocking)
+
+4. How to scale this?
+ans. Use availability calender per room, persist state
+
+5. How to enable real-time search?
+ans. Use SearchService backed by cache or in-memory index.
+
+
+
+# Deep Dives & Version 2 ideas
+
+Pricing engine ---------- Add PriceCalculatorService
+Payment Integration-------Add PaymentService, update Status post payment
+Reviews & Ratings---------Add Rating class linked to Hotel or Room
+Loyalty Program-----------Add UserPoints, reward after bookings
+Scheduled notifications---Use Observer + Scheduler to send booking alerts
+
+
+
+
+Summary
+# Key concepts ----------------------------------------------Date-based availability map,room locking, service split
+# Design patterns--------------------------------------------Enum State transition, SRP, Optional DAO layer
+# Extensibility Hooks........................................Pricing,payments,loyalty, filtering,notifications
+# Common pitfalls--------------------------------------------Not handling overlapping bookings or availability cleanup
+# Interview tip----------------------------------------------The availability map gives us a fast, scalable structured data for date checks,
+                                                             and can easily integrate with DB or search index later.
