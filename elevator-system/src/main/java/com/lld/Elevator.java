@@ -61,7 +61,7 @@ public class Elevator {
         switch(direction){
             case UP -> moveUp();
             case DOWN -> moveDown();
-            case IDLE -> System.out.println("Elevator is idle at floor: "+currentFloor);
+            case IDLE -> System.out.println("Elevator "+id+" is idle at floor: "+currentFloor);
         }
     }
 
@@ -78,7 +78,7 @@ public class Elevator {
                 this.direction=Direction.DOWN;
             }
             else{
-                this.direction = Direction.UP;
+                this.direction = Direction.IDLE;
             }
         }
     }
@@ -96,9 +96,10 @@ public class Elevator {
                 this.direction=Direction.UP;
             }
             else{
-                this.direction = Direction.DOWN;
+                this.direction = Direction.IDLE;
             }
         }
     }
 
 }
+
