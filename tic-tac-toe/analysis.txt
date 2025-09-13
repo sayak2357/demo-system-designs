@@ -1,0 +1,7 @@
+Time & Space Complexity
+
+Make move: O(1)
+
+Check win: O(N) where N is the size of the board
+
+Space: O(N²) for the board representation
