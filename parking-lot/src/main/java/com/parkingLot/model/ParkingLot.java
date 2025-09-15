@@ -11,7 +11,7 @@ public class ParkingLot {
     }
     public Optional<ParkingSlot> getNearestParkingSlot(VehicleType vehicleType){
         for(ParkingFloor parkingFloor:floors){
-            Optional<ParkingSlot> slot = floors.getFirst().getAvailableSlot(vehicleType);
+            Optional<ParkingSlot> slot = parkingFloor.getAvailableSlot(vehicleType);
             if(!slot.isEmpty())
                 return slot;
         }

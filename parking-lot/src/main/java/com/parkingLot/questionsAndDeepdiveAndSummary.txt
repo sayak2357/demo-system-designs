@@ -23,11 +23,11 @@ ans. Add AdminService for dynamic lot management.
 
 Deep dives and V2 ideas:
 
-# Real-time occupancy api:      Add a MintoringService
+# Real-time occupancy api:      Add a MonitoringService
 # Web dashboard                 Export REST endpoints from service
 # License plate scanning        Add Camera, VehicleDetector class
 # Floor prioritization          Use a SlotAssignmentStrategy Interface
-# Reserved parking slots        Add a flag "isReservers", enhance UI/Logic
+# Reserved parking slots        Add a flag "isReserved", enhance UI/Logic
 
 
 Summary:

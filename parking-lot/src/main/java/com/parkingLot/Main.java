@@ -1,5 +1,6 @@
 package com.parkingLot;
 
+import com.parkingLot.feeStrategy.Strategy;
 import com.parkingLot.model.*;
 import com.parkingLot.service.ParkingService;
 
@@ -20,7 +21,7 @@ public class Main {
         ParkingFloor parkingFloor1 = new ParkingFloor(1,floor1Slots);
         ParkingLot parkingLot = new ParkingLot(List.of(parkingFloor1));
 
-        ParkingService parkingService = new ParkingService(parkingLot);
+        ParkingService parkingService = new ParkingService(parkingLot, Strategy.FLAT,100d);
 
         Vehicle car = new Car("FG123");
         Ticket ticket = parkingService.parkVehicle(car);
