@@ -8,6 +8,7 @@ public class HourlyFees implements FeesStrategy{
 
     @Override
     public double calculateFee(double hour) {
+        hour = Math.max(hour,1d);
         return hour*this.rate;
     }
 }
