@@ -2,25 +2,33 @@ package com.parkingLot.model;
 
 public class ParkingSlot {
     int id;
-    boolean isOccupied;
+    SlotStatus slotStatus;
     VehicleType allowedType;
     Vehicle vehicle;
     public ParkingSlot(int id, VehicleType allowedType){
         this.id = id;
         this.allowedType = allowedType;
-        this.isOccupied = false;
+        this.slotStatus = SlotStatus.AVAILABLE;
     }
     public boolean isAvailable(){
-        return !this.isOccupied;
+        return this.slotStatus.equals(SlotStatus.AVAILABLE);
     }
 
     public boolean isOccupied() {
-        return isOccupied;
+        return this.slotStatus.equals(SlotStatus.OCCUPIED);
     }
 
-    public void setOccupied(boolean occupied) {
-        isOccupied = occupied;
+    public boolean isReserved() {
+        return this.slotStatus.equals(SlotStatus.RESERVED);
     }
+
+    public void setOccupied() {
+        this.slotStatus = SlotStatus.OCCUPIED;
+    }
+
+    public void setAvailable(){ this.slotStatus = SlotStatus.AVAILABLE; }
+
+    public void setReserved(){ this.slotStatus = SlotStatus.RESERVED; }
 
     public VehicleType getAllowedType() {
         return allowedType;

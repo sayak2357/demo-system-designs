@@ -27,6 +27,7 @@ public class Main {
         OccupancyAPIService occupancyAPIService = new OccupancyAPIService(parkingService);
         parkingService.reserveSlot(1);
         parkingService.reserveSlot(1);
+        parkingService.unreserveSlot(1);
         Vehicle car = new Car("FG123");
         Ticket ticket = parkingService.parkVehicle(car);
         System.out.println("Ticket ID:"+ticket.getTicketId());
