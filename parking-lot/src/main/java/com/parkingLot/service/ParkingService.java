@@ -54,13 +54,17 @@ public class ParkingService {
         System.out.println("Please pay an amount of: "+amount);
     }
     public String reserveSlot(int id){
-        ParkingSlot ps = parkingLot.getParkingSlotById(id).get();
-        if(ps!=null) {
-            ps.setOccupied(true);
-            System.out.println("Slot with id: "+id+" is reserved");
-            return "Slot with id: "+id+" is reserved";
+        try {
+            ParkingSlot ps = parkingLot.getParkingSlotById(id).get();
+            if (ps != null) {
+                ps.setOccupied(true);
+                System.out.println("Slot with id: " + id + " is reserved");
+                return "Slot with id: " + id + " is reserved";
+            }
         }
-        System.out.println("Slot with id: "+id+" is not available for reservation");
+        catch (Exception e) {
+            System.out.println("Slot with id: " + id + " is not available for reservation");
+        }
         return "Slot with id: "+id+" is not available for reservation";
     }
 }

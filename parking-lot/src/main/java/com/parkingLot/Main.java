@@ -23,6 +23,7 @@ public class Main {
 
         ParkingService parkingService = new ParkingService(parkingLot, Strategy.FLAT,100d);
         parkingService.reserveSlot(1);
+        parkingService.reserveSlot(1);
         Vehicle car = new Car("FG123");
         Ticket ticket = parkingService.parkVehicle(car);
         System.out.println("Ticket ID:"+ticket.getTicketId());
