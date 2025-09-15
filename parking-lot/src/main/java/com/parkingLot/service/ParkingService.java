@@ -57,8 +57,10 @@ public class ParkingService {
         ParkingSlot ps = parkingLot.getParkingSlotById(id).get();
         if(ps!=null) {
             ps.setOccupied(true);
+            System.out.println("Slot with id: "+id+" is reserved");
             return "Slot with id: "+id+" is reserved";
         }
+        System.out.println("Slot with id: "+id+" is not available for reservation");
         return "Slot with id: "+id+" is not available for reservation";
     }
 }
