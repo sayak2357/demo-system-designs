@@ -1,5 +1,10 @@
 package com.parkingLot.feeStrategy;
 
+import com.parkingLot.model.Ticket;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class HourlyFees implements FeesStrategy{
     private double rate;
     public HourlyFees(double rate) {
@@ -7,8 +12,10 @@ public class HourlyFees implements FeesStrategy{
     }
 
     @Override
-    public double calculateFee(double hour) {
-        hour = Math.max(hour,1d);
-        return hour*this.rate;
+    public double calculateFee(Ticket ticket) {
+        LocalDateTime start = ticket.getEntryTime();
+        LocalDateTime end = ticket.getExitTime();
+        long hours = Math.max(1,Duration.between(start, end).toHours());
+        return hours*this.rate;
     }
 }

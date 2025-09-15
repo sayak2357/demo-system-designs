@@ -47,10 +47,7 @@ public class ParkingService {
         calculateFee(ticket);
     }
     private void calculateFee(Ticket ticket){
-        LocalDateTime start = ticket.getEntryTime();
-        LocalDateTime end = ticket.getExitTime();
-        long hours = Duration.between(start, end).toHours();
-        double amount = this.feesStrategy.calculateFee(hours);
+        double amount = this.feesStrategy.calculateFee(ticket);
         System.out.println("Please pay an amount of: "+amount);
     }
     public String reserveSlot(int id){

@@ -1,5 +1,7 @@
 package com.parkingLot.feeStrategy;
 
+import com.parkingLot.model.Ticket;
+
 public class FixedFees implements FeesStrategy{
     private double rate;
 
@@ -8,7 +10,7 @@ public class FixedFees implements FeesStrategy{
     }
 
     @Override
-    public double calculateFee(double hour) {
+    public double calculateFee(Ticket ticket) {
         return rate;
     }
 }
