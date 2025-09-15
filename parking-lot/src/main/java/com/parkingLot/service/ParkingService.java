@@ -53,4 +53,12 @@ public class ParkingService {
         double amount = this.feesStrategy.calculateFee(hours);
         System.out.println("Please pay an amount of: "+amount);
     }
+    public String reserveSlot(int id){
+        ParkingSlot ps = parkingLot.getParkingSlotById(id).get();
+        if(ps!=null) {
+            ps.setOccupied(true);
+            return "Slot with id: "+id+" is reserved";
+        }
+        return "Slot with id: "+id+" is not available for reservation";
+    }
 }

@@ -14,4 +14,7 @@ public class ParkingFloor {
     public Optional<ParkingSlot> getAvailableSlot(VehicleType vehicleType){
         return slots.stream().filter(s->s.allowedType.equals(vehicleType) && s.isAvailable()).findFirst();
     }
+    public Optional<ParkingSlot> getSlotById(int id){
+        return slots.stream().filter(s->!s.isOccupied && s.id==id).findFirst();
+    }
 }

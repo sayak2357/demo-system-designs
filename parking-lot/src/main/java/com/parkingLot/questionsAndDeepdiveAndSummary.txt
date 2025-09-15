@@ -2,12 +2,12 @@
 Follow-up questions:
 
 1. Can we add fee calculator?
-ans. Add FeeStrategy (flat fee, hourlyFee)
+ans. Add FeeStrategy (flat fee, hourlyFee)                          DONE
 
 2. How to handle multiple entry gates?
 ans. Add EntryGate class with queue and dispatcher logic.
 
-3. What if I want slot reservation?
+3. What if I want slot reservation?                                 DONE
 ans. Add SlotStatus:AVAILABLE,RESERVED,OCCUPIED
 
 4. How to persist data?

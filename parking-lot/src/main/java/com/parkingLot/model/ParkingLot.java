@@ -17,4 +17,13 @@ public class ParkingLot {
         }
         return Optional.empty();
     }
+    public Optional<ParkingSlot> getParkingSlotById(int id){
+        Optional<ParkingSlot> target = null;
+        for(ParkingFloor floor:floors){
+            target = floor.getSlotById(id);
+            if(!target.isEmpty())
+                return target;
+        }
+        return null;
+    }
 }
