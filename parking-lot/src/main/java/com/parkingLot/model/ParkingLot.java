@@ -5,9 +5,10 @@ import java.util.Optional;
 
 public class ParkingLot {
     List<ParkingFloor> floors;
-
+    private int capacity;
     public ParkingLot(List<ParkingFloor> floors) {
         this.floors = floors;
+        this.capacity = floors.stream().mapToInt(ParkingFloor::getCapacity).sum();
     }
     public Optional<ParkingSlot> getNearestParkingSlot(VehicleType vehicleType){
         for(ParkingFloor parkingFloor:floors){
@@ -25,5 +26,9 @@ public class ParkingLot {
                 return target;
         }
         return null;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }

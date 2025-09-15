@@ -13,7 +13,7 @@ ans. Add SlotStatus:AVAILABLE,RESERVED,OCCUPIED
 4. How to persist data?
 ans. Add SlotRepository,TicketRepository
 
-5. Can you handle concurrency?
+5. Can you handle concurrency?                                      DONE
 ans. Use locks or ConcurrentHashMaps or shared slots.
 
 6. How would you support admins?
@@ -23,7 +23,7 @@ ans. Add AdminService for dynamic lot management.
 
 Deep dives and V2 ideas:
 
-# Real-time occupancy api:      Add a MonitoringService
+# Real-time occupancy api:      Add a MonitoringService                      DONE
 # Web dashboard                 Export REST endpoints from service
 # License plate scanning        Add Camera, VehicleDetector class
 # Floor prioritization          Use a SlotAssignmentStrategy Interface

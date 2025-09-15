@@ -17,15 +17,17 @@ public class ParkingService {
     private ParkingLot parkingLot;
     private Map<String, Ticket> activeTickets;
     private FeesStrategy feesStrategy;
-    public ParkingService(ParkingLot parkingLot, Strategy strategy,double rate){
+    private MonitoringService monitoringService;
+    public ParkingService(ParkingLot parkingLot, Strategy strategy,double rate, MonitoringService monitoringService){
         this.parkingLot = parkingLot;
         this.activeTickets = new HashMap<>();
         switch (strategy){
             case FLAT -> this.feesStrategy = new FixedFees(rate);
             case HOURLY -> this.feesStrategy = new HourlyFees(rate);
         }
+        this.monitoringService = monitoringService;
     }
-    public Ticket parkVehicle(Vehicle vehicle){
+    public synchronized Ticket parkVehicle(Vehicle vehicle){
         Optional<ParkingSlot> parkingSlot = parkingLot.getNearestParkingSlot(vehicle.getVehicleType());
         if(parkingSlot.isEmpty())
             throw new RuntimeException("No slot available");
@@ -35,22 +37,24 @@ public class ParkingService {
         String ticketId = UUID.randomUUID().toString();
         Ticket ticket = new Ticket(ticketId,slot,vehicle);
         activeTickets.put(ticketId,ticket);
+        monitoringService.notifyChange(activeTickets.size(),parkingLot.getCapacity());
         return ticket;
     }
-    public void unparkVehicle(String ticketId){
+    public synchronized void unparkVehicle(String ticketId){
         Ticket ticket = activeTickets.remove(ticketId);
         ticket.setExitTime(LocalDateTime.now());
         ParkingSlot slot = ticket.getParkingSlot();
         slot.setVehicle(null);
         slot.setOccupied(false);
         System.out.println("vehicle unparked "+ticket.getVehicle().getVehicleNumber());
+        monitoringService.notifyChange(activeTickets.size(),parkingLot.getCapacity());
         calculateFee(ticket);
     }
     private void calculateFee(Ticket ticket){
         double amount = this.feesStrategy.calculateFee(ticket);
         System.out.println("Please pay an amount of: "+amount);
     }
-    public String reserveSlot(int id){
+    public synchronized String reserveSlot(int id){
         try {
             ParkingSlot ps = parkingLot.getParkingSlotById(id).get();
             if (ps != null) {
@@ -63,5 +67,13 @@ public class ParkingService {
             System.out.println("Slot with id: " + id + " is not available for reservation");
         }
         return "Slot with id: "+id+" is not available for reservation";
+    }
+
+    public synchronized int getOccupiedSpots() {
+        return activeTickets.size();
+    }
+
+    public int getCapacity() {
+        return this.parkingLot.getCapacity();
     }
 }
