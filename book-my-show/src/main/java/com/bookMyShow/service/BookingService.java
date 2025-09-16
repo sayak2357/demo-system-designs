@@ -25,16 +25,25 @@ public class BookingService {
      */
     public synchronized Booking createPendingBooking(User user, Show show, List<Seat> requestedSeats) {
         // Check if already booked
+
         for (Seat seat : requestedSeats) {
             if (isAlreadyBooked(show.getShowId(), seat)) {
                 throw new RuntimeException("Seat already booked: " + seat.getSeatId());
             }
-            if (!seatLockManager.lockSeat(show.getShowId(), seat.getSeatId(), user.getId(), Constants.LOCK_TIMEOUT_MILLIS)) {
+            if (seatLockManager.isSeatLockedByAnyone(show.getShowId(), seat.getSeatId())) {
                 throw new RuntimeException("Seat temporarily locked: " + seat.getSeatId());
+            }
+            if (!seatLockManager.lockSeat(show.getShowId(), seat.getSeatId(), user.getId(), Constants.LOCK_TIMEOUT_MILLIS)) {
+                throw new RuntimeException("Failed to acquire lock for seat: " + seat.getSeatId());
             }
         }
 
-        Booking booking = new Booking(UUID.randomUUID().toString(), user, show, requestedSeats);
+        Booking booking = new Booking(
+                UUID.randomUUID().toString(),
+                user,
+                show,
+                requestedSeats
+        );
         pendingBookings.put(booking.getBookingId(), booking);
         return booking;
     }
@@ -48,10 +57,10 @@ public class BookingService {
             throw new RuntimeException("No pending booking found with id: " + bookingId);
         }
 
-        // Verify locks are still valid
+        // Verify locks are still valid and belong to this user
         for (Seat seat : booking.getSeats()) {
-            if (!seatLockManager.isSeatLocked(booking.getShow().getShowId(), seat.getSeatId(), booking.getUser().getId())) {
-                throw new RuntimeException("Seat lock expired: " + seat.getSeatId());
+            if (!seatLockManager.isSeatLockedByUser(booking.getShow().getShowId(), seat.getSeatId(), booking.getUser().getId())) {
+                throw new RuntimeException("Seat lock expired or taken: " + seat.getSeatId());
             }
         }
 
@@ -66,6 +75,7 @@ public class BookingService {
     }
 
 
+
     /**
      * Cancel booking (either user cancels or payment fails)
      */
@@ -75,11 +85,14 @@ public class BookingService {
             for (Seat seat : booking.getSeats()) {
                 seatLockManager.unlockSeat(booking.getShow().getShowId(), seat.getSeatId(), booking.getUser().getId());
             }
+            booking.cancelBooking();
             pendingBookings.remove(bookingId);
         }
     }
-    private boolean isAlreadyBooked(String showId, Seat seat){
-        List<Booking> bookings = confirmedBookings.getOrDefault(showId,new ArrayList<>());
-        return bookings.stream().flatMap(b->b.getSeats().stream()).anyMatch(s->s.getSeatId().equals(seat.getSeatId()));
+    private boolean isAlreadyBooked(String showId, Seat seat) {
+        List<Booking> bookings = confirmedBookings.getOrDefault(showId, new ArrayList<>());
+        return bookings.stream()
+                .flatMap(b -> b.getSeats().stream())
+                .anyMatch(s -> s.getSeatId().equals(seat.getSeatId()));
     }
 }
