@@ -21,8 +21,6 @@ public class BalanceSheetService {
         rebalance(lenderId,borrowerId);
     }
     private void rebalance(int lenderId,int borrowerId){
-        String forwardKey = String.valueOf(borrowerId)+"#"+String.valueOf(lenderId);
-        String reverseKey = String.valueOf(lenderId)+"#"+String.valueOf(borrowerId);
         double borrrowerOwes = this.balanceSheet.getDueAmount(lenderId,borrowerId);
         double lenderOwes = this.balanceSheet.getDueAmount(borrowerId,lenderId);
         if(borrrowerOwes>=lenderOwes){
