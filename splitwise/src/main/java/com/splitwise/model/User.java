@@ -1,6 +1,8 @@
 package com.splitwise.model;
 
-public class User {
+import com.splitwise.notification.Observer;
+
+public class User implements Observer {
     static int userId = 1;
     private int id;
     private String name;
@@ -16,5 +18,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void update(String message) {
+        System.out.println("message for user: "+name+" "+message);
     }
 }
