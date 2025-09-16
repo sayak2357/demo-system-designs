@@ -8,6 +8,7 @@ public class Booking {
     private Show show;
     private List<Seat> seats;
     private LocalDateTime timestamp;
+    private BookingStatus status;
 
     public Booking(String bookingId, User user, Show show, List<Seat> seats) {
         this.bookingId = bookingId;
@@ -15,6 +16,7 @@ public class Booking {
         this.show = show;
         this.seats = seats;
         this.timestamp = LocalDateTime.now();
+        this.status = BookingStatus.PENDING;
     }
 
     public String getBookingId() {
@@ -35,6 +37,18 @@ public class Booking {
 
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    public void confirmBooking(){
+        this.status = BookingStatus.CONFIRMED;
+    }
+
+    public void cancelBooking(){
+        this.status = BookingStatus.CANCELLED;
+    }
+
+    public void expireBooking(){
+        this.status =  BookingStatus.EXPIRED;
     }
 
     @Override
