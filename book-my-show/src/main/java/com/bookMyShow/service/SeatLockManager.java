@@ -3,10 +3,6 @@ package com.bookMyShow.service;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
-
 public class SeatLockManager {
     private final Map<String, Map<String, SeatLock>> seatLocks; // showId -> (seatId -> SeatLock)
 
@@ -24,11 +20,16 @@ public class SeatLockManager {
 
         Map<String, SeatLock> lockedSeats = seatLocks.get(showId);
         if (lockedSeats.containsKey(seatId) && lockedSeats.get(seatId).isActive()) {
+            System.out.println("[LOCK-FAILED] Seat " + seatId + " already locked for show " + showId);
             return false; // already locked
         }
 
         long expiryTime = System.currentTimeMillis() + timeoutMillis;
         lockedSeats.put(seatId, new SeatLock(userId, expiryTime));
+
+        System.out.println("[LOCKED] Seat " + seatId + " locked by user " + userId +
+                " for show " + showId + " until " + expiryTime);
+
         return true;
     }
 
@@ -66,6 +67,8 @@ public class SeatLockManager {
 
         if (lock != null && lock.getUserId().equals(userId)) {
             lockedSeats.remove(seatId);
+            System.out.println("[UNLOCKED] Seat " + seatId + " unlocked by user " + userId +
+                    " for show " + showId);
         }
     }
 
@@ -75,7 +78,16 @@ public class SeatLockManager {
     private void removeExpiredLocks(String showId) {
         if (!seatLocks.containsKey(showId)) return;
         Map<String, SeatLock> lockedSeats = seatLocks.get(showId);
-        lockedSeats.entrySet().removeIf(entry -> !entry.getValue().isActive());
+
+        lockedSeats.entrySet().removeIf(entry -> {
+            boolean expired = !entry.getValue().isActive();
+            if (expired) {
+                System.out.println("[EXPIRED-LOCK] Seat " + entry.getKey() +
+                        " lock expired for show " + showId +
+                        " (was locked by user " + entry.getValue().getUserId() + ")");
+            }
+            return expired;
+        });
     }
 
     /**

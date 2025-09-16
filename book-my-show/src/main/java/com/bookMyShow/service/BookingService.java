@@ -20,11 +20,12 @@ public class BookingService {
         this.confirmedBookings = new ConcurrentHashMap<>();
         this.pendingBookings = new ConcurrentHashMap<>();
     }
+
     /**
      * Try to create a pending booking by locking seats for a user
      */
     public synchronized Booking createPendingBooking(User user, Show show, List<Seat> requestedSeats) {
-        // Check if already booked
+        cleanupExpiredPendingBookings();
 
         for (Seat seat : requestedSeats) {
             if (isAlreadyBooked(show.getShowId(), seat)) {
@@ -45,6 +46,12 @@ public class BookingService {
                 requestedSeats
         );
         pendingBookings.put(booking.getBookingId(), booking);
+
+        System.out.println("[PENDING] Booking created with ID " + booking.getBookingId() +
+                " for user " + user.getName() +
+                " on show " + show.getShowId() +
+                " with seats " + requestedSeats);
+
         return booking;
     }
 
@@ -52,12 +59,13 @@ public class BookingService {
      * Confirm a booking after successful payment
      */
     public synchronized Booking confirmBooking(String bookingId) {
+        cleanupExpiredPendingBookings();
+
         Booking booking = pendingBookings.get(bookingId);
         if (booking == null) {
             throw new RuntimeException("No pending booking found with id: " + bookingId);
         }
 
-        // Verify locks are still valid and belong to this user
         for (Seat seat : booking.getSeats()) {
             if (!seatLockManager.isSeatLockedByUser(booking.getShow().getShowId(), seat.getSeatId(), booking.getUser().getId())) {
                 throw new RuntimeException("Seat lock expired or taken: " + seat.getSeatId());
@@ -68,18 +76,27 @@ public class BookingService {
         confirmedBookings.putIfAbsent(booking.getShow().getShowId(), new ArrayList<>());
         confirmedBookings.get(booking.getShow().getShowId()).add(booking);
 
-        // cleanup pending map
+        // Release temporary locks
+        for (Seat seat : booking.getSeats()) {
+            seatLockManager.unlockSeat(booking.getShow().getShowId(), seat.getSeatId(), booking.getUser().getId());
+        }
+
         pendingBookings.remove(bookingId);
+
+        System.out.println("[CONFIRMED] Booking confirmed with ID " + booking.getBookingId() +
+                " for user " + booking.getUser().getName() +
+                " on show " + booking.getShow().getShowId() +
+                " with seats " + booking.getSeats());
 
         return booking;
     }
-
-
 
     /**
      * Cancel booking (either user cancels or payment fails)
      */
     public synchronized void cancelBooking(String bookingId) {
+        cleanupExpiredPendingBookings();
+
         Booking booking = pendingBookings.get(bookingId);
         if (booking != null) {
             for (Seat seat : booking.getSeats()) {
@@ -87,8 +104,41 @@ public class BookingService {
             }
             booking.cancelBooking();
             pendingBookings.remove(bookingId);
+
+            System.out.println("[CANCELLED] Booking cancelled with ID " + booking.getBookingId() +
+                    " for user " + booking.getUser().getName() +
+                    " on show " + booking.getShow().getShowId());
         }
     }
+
+    /**
+     * Expire bookings whose locks are no longer valid
+     */
+    private synchronized void cleanupExpiredPendingBookings() {
+        List<String> toRemove = new ArrayList<>();
+        for (Map.Entry<String, Booking> entry : pendingBookings.entrySet()) {
+            Booking pending = entry.getValue();
+            boolean allSeatsStillLockedByUser = true;
+            for (Seat seat : pending.getSeats()) {
+                if (!seatLockManager.isSeatLockedByUser(pending.getShow().getShowId(), seat.getSeatId(), pending.getUser().getId())) {
+                    allSeatsStillLockedByUser = false;
+                    break;
+                }
+            }
+            if (!allSeatsStillLockedByUser) {
+                pending.expireBooking();
+                toRemove.add(entry.getKey());
+
+                System.out.println("[EXPIRED] Booking expired with ID " + pending.getBookingId() +
+                        " for user " + pending.getUser().getName() +
+                        " on show " + pending.getShow().getShowId());
+            }
+        }
+        for (String bookingId : toRemove) {
+            pendingBookings.remove(bookingId);
+        }
+    }
+
     private boolean isAlreadyBooked(String showId, Seat seat) {
         List<Booking> bookings = confirmedBookings.getOrDefault(showId, new ArrayList<>());
         return bookings.stream()
