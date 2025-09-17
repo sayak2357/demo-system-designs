@@ -1,5 +1,7 @@
 package com.foodOrder.entity;
 
+import java.util.List;
+
 public class Restaurant {
     private String id;
     private String name;

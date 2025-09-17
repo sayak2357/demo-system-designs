@@ -1,9 +1,6 @@
 package com.foodOrder;
 
-import com.foodOrder.entity.MenuItem;
-import com.foodOrder.entity.Order;
-import com.foodOrder.entity.OrderStatus;
-import com.foodOrder.entity.User;
+import com.foodOrder.entity.*;
 import com.foodOrder.service.OrderingService;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -19,7 +16,7 @@ public class Main {
         user.getCart().addItem(pizza);
 
         OrderingService orderingService = new OrderingService();
-        Order order = orderingService.placeOrder(user);
+        Order order = orderingService.placeOrder(user, PaymentMode.CASH_ON_DELIVERY);
 
         System.out.println("Order placed with id: "+order.getId());
 
