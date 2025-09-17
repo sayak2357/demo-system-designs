@@ -29,6 +29,6 @@ public class Main {
 
         ratingService.rateMenuItem(biryani,5);
         ratingService.rateMenuItem(biryani,4);
-        System.out.println("Biryani average rating: "+ratingService.getRatingCount(biryani));
+        System.out.println("Biryani average rating: "+ratingService.getAverageRating(biryani));
     }
 }
