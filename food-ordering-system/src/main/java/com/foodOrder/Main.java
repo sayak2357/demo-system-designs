@@ -2,6 +2,7 @@ package com.foodOrder;
 
 import com.foodOrder.entity.*;
 import com.foodOrder.service.OrderingService;
+import com.foodOrder.service.RatingService;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -21,5 +22,13 @@ public class Main {
         System.out.println("Order placed with id: "+order.getId());
 
         orderingService.updateOrderStatus(order.getId(), OrderStatus.CONFIRMED);
+
+
+        //Rating service demo
+        RatingService ratingService = new RatingService();
+
+        ratingService.rateMenuItem(biryani,5);
+        ratingService.rateMenuItem(biryani,4);
+        System.out.println("Biryani average rating: "+ratingService.getRatingCount(biryani));
     }
 }
