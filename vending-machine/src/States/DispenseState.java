@@ -24,7 +24,7 @@ public class DispenseState implements State{
     }
 
     @Override
-    public void dispense(int aisleNumber) {
+    public synchronized void dispense(int aisleNumber) {
         Inventory inventory = vendingMachine.getInventory();
         Product product = inventory.getProductAt(aisleNumber);
         double change = vendingMachine.getAmount() - product.getPrice();

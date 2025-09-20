@@ -1,6 +1,6 @@
 package vendingMachine;
 
-import Constants.Constants;
+
 import Inventory.Inventory;
 import Inventory.Product;
 import States.CoinInsertedState;
