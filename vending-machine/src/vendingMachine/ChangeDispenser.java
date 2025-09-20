@@ -30,4 +30,8 @@ public class ChangeDispenser {
         return res;
     }
 
+    public void addCoin(double amount){
+        denominationCountMap.put(amount,denominationCountMap.getOrDefault(amount,0)+1);
+    }
+
 }

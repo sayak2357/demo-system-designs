@@ -12,6 +12,7 @@ public class NoCoinInsertedState implements State{
     @Override
     public void insertCoin(double amount) {
         vendingMachine.setAmount(amount);
+        vendingMachine.getChangeDispenser().addCoin(amount);
         vendingMachine.setCurrVendingMachineState(vendingMachine.getCoinInsertedState());
 
     }
