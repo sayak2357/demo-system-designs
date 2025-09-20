@@ -4,6 +4,8 @@ import Inventory.Inventory;
 import Inventory.Product;
 import vendingMachine.VendingMachine;
 
+import java.util.List;
+
 public class DispenseState implements State{
     private final VendingMachine vendingMachine;
 
@@ -31,6 +33,14 @@ public class DispenseState implements State{
         vendingMachine.setAmount(0);
         vendingMachine.setCurrVendingMachineState(vendingMachine.getNoCoinInsertedState());
         System.out.println("Product with id:"+product.getId()+" is dispensed.");
-        System.out.println("You're getting an amount of rupees"+change+" as change");
+        List<Double> coins = null;
+        try {
+            coins = vendingMachine.getChangeDispenser().getChange(change);
+        }catch (Exception e){
+            System.out.println("can't dispense amount. No denominations on stock");
+            e.printStackTrace();
+            return;
+        }
+        System.out.println("You're getting an amount of rupees"+change+" as change"+" with denominations: "+coins);
     }
 }

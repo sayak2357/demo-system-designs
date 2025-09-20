@@ -16,6 +16,11 @@ public class VendingMachine {
     private Inventory inventory;
     private double amount;
     private static final int AISLE_COUNT = 2;
+    private ChangeDispenser changeDispenser;
+
+    public ChangeDispenser getChangeDispenser() {
+        return changeDispenser;
+    }
 
     public VendingMachine() {
         noCoinInsertedState = new NoCoinInsertedState(this);
@@ -24,6 +29,7 @@ public class VendingMachine {
         currVendingMachineState = noCoinInsertedState;
         amount = 0.0;
         inventory = new Inventory(AISLE_COUNT);
+        changeDispenser = new ChangeDispenser();
     }
 
     public boolean hasSufficientAmount(double expectedAmount){
@@ -73,7 +79,7 @@ public class VendingMachine {
         this.currVendingMachineState.insertCoin(amount);
         System.out.println(amount+" coins inserted");
     }
-    public void pressButton(int aisleNumber){
+    public void pressButton(int aisleNumber) throws Exception {
         this.currVendingMachineState.pressButton(aisleNumber);
         this.currVendingMachineState.dispense(aisleNumber);
     }
