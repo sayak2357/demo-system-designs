@@ -27,8 +27,6 @@ public class DispenseState implements State{
     public void dispense(int aisleNumber) {
         Inventory inventory = vendingMachine.getInventory();
         Product product = inventory.getProductAt(aisleNumber);
-
-        inventory.deductProductCount(aisleNumber);
         double change = vendingMachine.getAmount() - product.getPrice();
         vendingMachine.setAmount(0);
         vendingMachine.setCurrVendingMachineState(vendingMachine.getNoCoinInsertedState());
@@ -36,8 +34,10 @@ public class DispenseState implements State{
         List<Double> coins = null;
         try {
             coins = vendingMachine.getChangeDispenser().getChange(change);
+            inventory.deductProductCount(aisleNumber);
         }catch (Exception e){
-            System.out.println("can't dispense amount. No denominations on stock");
+            double refundedAmount = vendingMachine.getAmount();
+            System.out.println("can't dispense amount. No denominations on stock. Your total money: "+vendingMachine.getAmount()+"₹  is refunded.");
             e.printStackTrace();
             return;
         }
