@@ -84,7 +84,7 @@ public class VendingMachine {
         this.currVendingMachineState.insertCoin(amount);
         System.out.println(amount+" coins inserted");
     }
-    public void pressButton(int aisleNumber) throws Exception {
+    public synchronized void pressButton(int aisleNumber) throws Exception {
         this.currVendingMachineState.pressButton(aisleNumber);
         this.currVendingMachineState.dispense(aisleNumber);
     }

@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="fbf31981-ec3a-452a-a608-ac38d6aa33e2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/States/CoinInsertedState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/States/CoinInsertedState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/States/NoCoinInsertedState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/States/NoCoinInsertedState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vendingMachine/ChangeDispenser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vendingMachine/ChangeDispenser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vendingMachine/VendingMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vendingMachine/VendingMachine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,5 +70,20 @@
       <updated>1758290252088</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Main.java</url>
+          <line>6</line>
+          <properties class="Main" method="main">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

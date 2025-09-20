@@ -19,7 +19,7 @@ public class ChangeDispenser {
         denominationCountMap.put(0.5,15);
     }
 
-    public List<Double> getChange(double amount) throws Exception{
+    public synchronized List<Double> getChange(double amount) throws Exception{
         List<Double> res = new ArrayList<>();
 
         for(double key:denominationCountMap.keySet()) {
@@ -35,7 +35,7 @@ public class ChangeDispenser {
         return res;
     }
 
-    public void addCoin(double amount){
+    public synchronized void addCoin(double amount){
         if (!VALID_DENOMINATIONS.contains(amount)) {
             throw new IllegalArgumentException("Invalid denomination inserted: " + amount);
         }

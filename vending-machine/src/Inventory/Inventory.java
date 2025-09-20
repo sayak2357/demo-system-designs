@@ -19,7 +19,7 @@ public class Inventory {
         productIdToCountMap = new HashMap<>();
     }
 
-    public void addProduct(Product product) throws Exception{
+    public synchronized void addProduct(Product product) throws Exception{
         int productId = product.getId();
         int productCount = productIdToCountMap.getOrDefault(productId,0);
         if(productCount==0){
@@ -35,12 +35,12 @@ public class Inventory {
         return aisleProductMap.get(aisleNumber);
     }
 
-    public boolean checkIfProductAvailable(int productId){
+    public synchronized boolean checkIfProductAvailable(int productId){
         int productCount = productIdToCountMap.getOrDefault(productId,0);
         return productCount>0;
     }
 
-    public void deductProductCount(int aisleNumber){
+    public synchronized void deductProductCount(int aisleNumber){
         Product product = aisleProductMap.get(aisleNumber);
         int productId = product.getId();
         int updatedProductCount = productIdToCountMap.get(productId)-1;
