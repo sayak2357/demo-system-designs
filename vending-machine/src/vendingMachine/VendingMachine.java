@@ -77,7 +77,7 @@ public class VendingMachine {
     public void setAmount(double amount){
         this.amount = amount;
     }
-    public void insertCoin(double amount){
+    public synchronized void insertCoin(double amount){
         if (!VALID_DENOMINATIONS.contains(amount)) {
             throw new IllegalArgumentException("Invalid denomination inserted: " + amount);
         }

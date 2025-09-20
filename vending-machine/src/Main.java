@@ -28,6 +28,7 @@ public class Main {
         vendingMachine.pressButton(1);
 
         vendingMachine.insertCoin(2);
+        vendingMachine.insertCoin(1);
         vendingMachine.pressButton(2);
 
     }

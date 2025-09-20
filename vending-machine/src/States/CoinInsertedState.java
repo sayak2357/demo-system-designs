@@ -12,6 +12,7 @@ public class CoinInsertedState implements State{
     }
     @Override
     public void insertCoin(double amount) {
+        vendingMachine.getChangeDispenser().addCoin(amount);
         vendingMachine.setAmount(vendingMachine.getAmount()+amount);
     }
 
