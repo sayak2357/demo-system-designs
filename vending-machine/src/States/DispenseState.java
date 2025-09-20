@@ -41,6 +41,6 @@ public class DispenseState implements State{
             e.printStackTrace();
             return;
         }
-        System.out.println("You're getting an amount of rupees"+change+" as change"+" with denominations: "+coins);
+        System.out.println("You're getting an amount of rupees "+change+" as change"+" with denominations: "+coins);
     }
 }

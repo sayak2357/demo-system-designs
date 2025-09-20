@@ -1,11 +1,13 @@
 package vendingMachine;
 
+import Constants.Constants;
 import Inventory.Inventory;
 import Inventory.Product;
 import States.CoinInsertedState;
 import States.DispenseState;
 import States.NoCoinInsertedState;
 import States.State;
+import static Constants.Constants.VALID_DENOMINATIONS;
 
 // Client will have access to this class only
 public class VendingMachine {
@@ -76,6 +78,9 @@ public class VendingMachine {
         this.amount = amount;
     }
     public void insertCoin(double amount){
+        if (!VALID_DENOMINATIONS.contains(amount)) {
+            throw new IllegalArgumentException("Invalid denomination inserted: " + amount);
+        }
         this.currVendingMachineState.insertCoin(amount);
         System.out.println(amount+" coins inserted");
     }

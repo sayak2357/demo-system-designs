@@ -24,10 +24,10 @@ public class Main {
         }
 
         vendingMachine.insertCoin(5.0);
-        vendingMachine.insertCoin(3.0);
+        vendingMachine.insertCoin(10.0);
         vendingMachine.pressButton(1);
 
-        vendingMachine.insertCoin(3);
+        vendingMachine.insertCoin(2);
         vendingMachine.pressButton(2);
 
     }
