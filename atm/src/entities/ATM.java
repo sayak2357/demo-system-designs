@@ -5,6 +5,7 @@ import entities.states.ATMState;
 import entities.states.AuthehticatedState;
 import entities.states.HasCardState;
 import entities.states.NoCardState;
+import service.BankingService;
 
 public class ATM {
     private ATMState noCardState;
@@ -14,14 +15,17 @@ public class ATM {
 
     private int cash;
     private CashDispenser dispenserChain;
+    private BankingService bankingService;
+    private Card card;
 
-    public ATM(int initialCAsh) {
+    public ATM(int initialCAsh, BankingService bankingService) {
         noCardState = new NoCardState(this);
         hasCardState = new HasCardState(this);
         authenticatedState = new AuthehticatedState(this);
         currentState = noCardState;
         this.cash = initialCAsh;
-
+        this.card = null;
+        this.bankingService = bankingService;
         // Setup chain of responsibility
         dispenserChain = new Dispense1000();
         CashDispenser dispense500 = new Dispense500();
@@ -36,7 +40,7 @@ public class ATM {
     }
 
     // State delegation methods
-    public void insertCard() { currentState.insertCard(); }
+    public void insertCard(Card card) { currentState.insertCard(card); }
     public void enterPin(int pin) { currentState.enterPin(pin); }
     public void withdrawCash(int amount) { currentState.withdrawCash(amount); }
     public int getCash() {
@@ -66,5 +70,15 @@ public class ATM {
 
     public CashDispenser getDispenserChain() {
         return dispenserChain;
+    }
+
+    public void setCard(Card card){ this.card = card;}
+
+    public BankingService getBankingService() {
+        return bankingService;
+    }
+
+    public Card getCard() {
+        return card;
     }
 }

@@ -1,6 +1,7 @@
 package entities.states;
 
 import entities.ATM;
+import entities.Card;
 
 public class NoCardState implements ATMState{
     private ATM atm;
@@ -10,8 +11,9 @@ public class NoCardState implements ATMState{
     }
 
     @Override
-    public void insertCard() {
+    public void insertCard(Card card) {
         System.out.println("card inserted");
+        atm.setCard(card);
         atm.setCurrentState(atm.getHasCardState());
     }
 
