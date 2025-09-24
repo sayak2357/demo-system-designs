@@ -101,5 +101,9 @@ public class Elevator {
         }
     }
 
+    public synchronized int getPendingRequestsCount() {
+        return upQueue.size() + downQueue.size();
+    }
+
 }
 
