@@ -21,5 +21,8 @@ public class Main {
         logger.info("Application started");
         logger.warn("Low memory warning");
         logger.error("Unhandled exception occurred");
+
+        // Gracefully close resources at shutdown
+        logger.shutdown();
     }
 }

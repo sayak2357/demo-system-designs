@@ -2,3 +2,7 @@
 [25--09-2025 15:57:52] [INFO] [main]: Application started
 [25--09-2025 15:57:52] [WARN] [main]: Low memory warning
 [25--09-2025 15:57:52] [ERROR] [main]: Unhandled exception occurred
+[25--09-2025 16:13:44] [DEBUG] [main]: Debugging...
+[25--09-2025 16:13:44] [INFO] [main]: Application started
+[25--09-2025 16:13:44] [WARN] [main]: Low memory warning
+[25--09-2025 16:13:44] [ERROR] [main]: Unhandled exception occurred

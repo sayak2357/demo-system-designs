@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbf31981-ec3a-452a-a608-ac38d6aa33e2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/ConsoleAppender.java" beforeDir="false" afterPath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/ConsoleAppender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/FileAppender.java" beforeDir="false" afterPath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/FileAppender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/Logger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/LoggerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../logging-system/src/main/java/com/lld/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logging-system/target/classes/com/lld/LogLevel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../logging-system/target/classes/com/lld/LogLevel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logging-system/target/classes/com/lld/Logger.class" beforeDir="false" afterPath="$PROJECT_DIR$/../logging-system/target/classes/com/lld/Logger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logging-system/target/classes/com/lld/LoggerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logging-system/target/classes/com/lld/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../logging-system/target/classes/com/lld/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

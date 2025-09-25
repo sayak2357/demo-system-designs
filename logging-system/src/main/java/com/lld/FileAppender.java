@@ -15,4 +15,11 @@ class FileAppender implements Appender {
             writer.flush();
         }
     }
+
+    @Override
+    public void close() {
+        synchronized (writer) {
+            writer.close();
+        }
+    }
 }

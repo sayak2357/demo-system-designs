@@ -1,11 +1,9 @@
 package com.lld;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Logger{
     private static volatile Logger instance;
@@ -17,7 +15,7 @@ public class Logger{
     private Logger() {
 
         this.currentLevel = LogLevel.DEBUG; // default level
-        this.appenders = new ArrayList<>();
+        this.appenders = new CopyOnWriteArrayList<>();        // thread safe array list
     }
     public static Logger getInstance(){
         if(instance==null){
@@ -57,4 +55,11 @@ public class Logger{
     public void info(String message) {log(LogLevel.INFO,message);}
     public void warn(String message) {log(LogLevel.WARN,message);}
     public void error(String message) {log(LogLevel.ERROR,message);}
+
+    // Gracefully close all appenders (useful for FileAppender)
+    public void shutdown() {
+        for (Appender appender : appenders) {
+            appender.close();
+        }
+    }
 }

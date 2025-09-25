@@ -6,3 +6,4 @@ public class ConsoleAppender implements Appender{
         System.out.println(formattedMessage);
     }
 }
+
