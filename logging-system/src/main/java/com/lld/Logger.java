@@ -1,14 +1,23 @@
 package com.lld;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Logger {
+public class Logger{
     private static volatile Logger instance;
     private LogLevel currentLevel;
+    private List<Appender> appenders;
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("dd--MM-yyyy HH:mm:ss");
 
     private Logger() {
+
         this.currentLevel = LogLevel.DEBUG; // default level
+        this.appenders = new ArrayList<>();
     }
     public static Logger getInstance(){
         if(instance==null){
@@ -25,13 +34,21 @@ public class Logger {
         this.currentLevel = level;
     }
 
+    public synchronized void addAppender(Appender appender) {
+        appenders.add(appender);
+    }
+    /*
+    * Log messages now includes: timestamp+level+thread name
+    * */
     private void log(LogLevel level,String message){
         if(level.getLevel()>= currentLevel.getLevel()){
-            String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            String formattedMessage = String.format("[%s] [%s]: %s", timestamp, level, message);
-            // ✅ Only synchronize the actual output step to avoid contention
-            synchronized (System.out) {
-                System.out.println(formattedMessage);
+            String timestamp = LocalDateTime.now().format(FORMATTER);
+            String threadName = Thread.currentThread().getName();
+            String formattedMessage =
+                    String.format("[%s] [%s] [%s]: %s", timestamp, level, threadName, message);
+
+            for (Appender appender : appenders) {
+                appender.append(formattedMessage);
             }
         }
     }
