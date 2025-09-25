@@ -5,10 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbf31981-ec3a-452a-a608-ac38d6aa33e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../elevator-system/src/main/java/com/lld/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../elevator-system/src/main/java/com/lld/Elevator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../elevator-system/src/main/java/com/lld/ElevatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../elevator-system/src/main/java/com/lld/ElevatorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../elevator-system/src/main/java/com/lld/ElevatorSystem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../elevator-system/src/main/java/com/lld/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../elevator-system/src/main/java/com/lld/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

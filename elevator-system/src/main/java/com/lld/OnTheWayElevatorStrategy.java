@@ -1,81 +1,52 @@
 package com.lld;
 
 import java.util.List;
-import java.util.Random;
 
 public class OnTheWayElevatorStrategy implements SchedulingStrategy {
 
-    // Penalties to bias selection:
-    // - AWAY_PENALTY: when elevator is moving in the opposite direction, discourage assigning
-    // - IDLE_PENALTY: idle elevators should be considered, but slightly penalized
-    private static final int AWAY_PENALTY = 10000;
-    private static final int IDLE_PENALTY = 100;
-
-    private final Random random = new Random();
-
     @Override
     public Elevator selectElevator(List<Elevator> elevators, Request request) {
-        int targetFloor = request.getFloor();   // floor where the request is made
-        Elevator best = null;                   // best elevator candidate
-        int bestScore = Integer.MAX_VALUE;      // lower score = better elevator
+        int targetFloor = request.getFloor();
+        Elevator bestElevator = null;
+        int minDist = Integer.MAX_VALUE;
 
-        // Iterate over all elevators to find the best one
-        for (Elevator e : elevators) {
-            int cur = e.getCurrentFloor();
-            Direction dir = e.getDirection();
-            int distance = Math.abs(cur - targetFloor);
-            int score;
+        for (Elevator elevator : elevators) {
+            int currentFloor = elevator.getCurrentFloor();
+            Direction dir = elevator.getDirection();
 
-            // CASE 1: Elevator is idle
-            // Score = distance + IDLE_PENALTY (so nearby idle elevators are preferred)
-            if (e.isIdle()) {
-                score = distance + IDLE_PENALTY;
-
-                // CASE 2: Elevator is going UP and the request is above its current floor
-                // Good candidate → score = direct distance
-            } else if (dir == Direction.UP && targetFloor >= cur) {
-                score = targetFloor - cur;
-
-                // CASE 3: Elevator is going DOWN and the request is below its current floor
-                // Good candidate → score = direct distance
-            } else if (dir == Direction.DOWN && targetFloor <= cur) {
-                score = cur - targetFloor;
-
-                // CASE 4: Elevator is moving AWAY from the request
-                // Bad candidate → apply huge penalty
-            } else {
-                score = distance + AWAY_PENALTY;
+            // Elevator is idle → can take the request
+            if (elevator.isIdle()) {
+                int distance = Math.abs(currentFloor - targetFloor);
+                if (distance < minDist) {
+                    minDist = distance;
+                    bestElevator = elevator;
+                }
             }
 
-            // Compare with best candidate so far
-            if (best == null) {
-                best = e;
-                bestScore = score;
+            // Elevator is moving UP and request floor is above current
+            else if (dir == Direction.UP && targetFloor >= currentFloor) {
+                int distance = targetFloor - currentFloor;
+                if (distance < minDist) {
+                    minDist = distance;
+                    bestElevator = elevator;
+                }
+            }
 
-            } else if (score < bestScore) {
-                // Found a strictly better elevator
-                best = e;
-                bestScore = score;
-
-            } else if (score == bestScore) {
-                // Tie-breaking:
-                // 1. Prefer elevator with fewer pending requests (less busy)
-                int pendingBest = best.getPendingRequestsCount();
-                int pendingE = e.getPendingRequestsCount();
-
-                if (pendingE < pendingBest) {
-                    best = e;
-
-                    // 2. If still tied, pick randomly to avoid bias toward elevator with lower ID
-                } else if (pendingE == pendingBest) {
-                    if (random.nextBoolean()) {
-                        best = e;
-                    }
+            // Elevator is moving DOWN and request floor is below current
+            else if (dir == Direction.DOWN && targetFloor <= currentFloor) {
+                int distance = currentFloor - targetFloor;
+                if (distance < minDist) {
+                    minDist = distance;
+                    bestElevator = elevator;
                 }
             }
         }
 
-        // Return the chosen elevator
-        return best;
+        // fallback: pick first elevator if none matched
+        if (bestElevator == null && !elevators.isEmpty()) {
+            bestElevator = elevators.get(0);
+        }
+
+        return bestElevator;
     }
 }
