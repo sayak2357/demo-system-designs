@@ -1,17 +1,20 @@
 package service;
 
-import entity.Event;
-import entity.MeetingInvite;
-import entity.RSVPStatus;
-import entity.User;
+import entity.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CalenderService {
+    private NotificationService notificationService;
+
+    public CalenderService(){
+        this.notificationService = new NotificationService();
+    }
     public boolean hasConflict(User user, LocalDateTime start, LocalDateTime end){
             return user.getEvents().stream().anyMatch(e-> e.isOverlap(start,end));
     }
@@ -20,7 +23,7 @@ public class CalenderService {
         if(hasConflict(host,start,end)){
             throw new RuntimeException("Host is not available at this time");
         }
-
+        List<Observer> observers = new ArrayList<>();
         Event event = new Event(UUID.randomUUID().toString(),title,start,end,host);
         host.addEvent(event);
         for(User p:participants){
@@ -30,6 +33,13 @@ public class CalenderService {
             MeetingInvite meetingInvite = new MeetingInvite(p);
             event.addInvite(meetingInvite);
             p.addEvent(event);        // add event to calender reagrdless of RSVP
+            observers.add(p);
+            notificationService.registerObserver(p);
+        }
+        notificationService.notifyObservers("invited to event: "+title);
+
+        for(Observer ob:observers){
+            notificationService.removeObserver(ob);
         }
         return event;
     }
