@@ -26,7 +26,7 @@ public class Event {
     }
 
     public boolean isOverlap(LocalDateTime s, LocalDateTime e){
-        return !(s.isAfter(end) || e.isBefore(s));
+        return !(s.isAfter(end) || e.isBefore(start));
     }
 
     public String getId() {

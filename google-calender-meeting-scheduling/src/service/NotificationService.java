@@ -5,12 +5,13 @@ import entity.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class NotificationService implements Notifier {
 
     private List<Observer> observers;
     public NotificationService(){
-        this.observers = new ArrayList<>();
+        this.observers = new CopyOnWriteArrayList<>(); // thread safe
     }
 
     @Override

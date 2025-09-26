@@ -16,4 +16,8 @@ public class MeetingInvite {
     public User getParticipant() {
         return participant;
     }
+
+    public RSVPStatus getStatus() {
+        return status;
+    }
 }

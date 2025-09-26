@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 public class User implements Observer{
@@ -30,6 +31,8 @@ public class User implements Observer{
         this.id = id;
         this.name = name;
         events = new ArrayList<>();
+        workingHourStart = LocalDateTime.now().with(LocalTime.of(10, 0));
+        workingHourEnd = LocalDateTime.now().with(LocalTime.of(19, 0));
     }
 
     public int getId() {

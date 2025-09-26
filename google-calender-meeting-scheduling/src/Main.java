@@ -1,9 +1,10 @@
-import entity.Event;
-import entity.RSVPStatus;
+import entity.RecurrencePattern;
+import entity.RecurringEvent;
 import entity.User;
-import service.CalenderService;
+import service.CalendarService;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -13,18 +14,35 @@ public class Main {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("Hello and welcome to Google Calender");
-        User sam = new User(1,"Sam");
-        User anil = new User(2,"Anil");
+        CalendarService calendarService = new CalendarService();
 
-        CalenderService calenderService = new CalenderService();
+        User host = new User(1, "Alice");
+        User bob = new User(2, "Bob");
+        User charlie = new User(3, "Charlie");
 
-        LocalDateTime start = LocalDateTime.of(2025,9,26,10,0);
-        LocalDateTime end = LocalDateTime.of(2025,9,26,11,0);
+        // One-time event
+        calendarService.createEvent(
+                "Team Sync",
+                LocalDateTime.now().plusHours(1),
+                LocalDateTime.now().plusHours(2),
+                host,
+                Arrays.asList(bob, charlie)
+        );
 
-        Event standup = calenderService.createEvent("DSM",start,end, sam,List.of(anil));
-        calenderService.respondToInvite(anil,standup, RSVPStatus.ACCEPTED);
+        // Recurring event
+        RecurringEvent recurringEvent = calendarService.createRecurringEvent(
+                "Daily Standup",
+                LocalDateTime.now().plusDays(1),
+                LocalDateTime.now().plusDays(1).plusMinutes(15),
+                host,
+                List.of(bob),
+                RecurrencePattern.DAILY,
+                LocalDateTime.now().plusDays(5)
+        );
 
-        calenderService.getUserSchedule(sam,start.minusHours(1),end.plusHours(2))
-                .forEach(e -> System.out.println(e.getTitle()+ " at "+e.getStart()));
+        System.out.println("\nExpanded occurrences of recurring event:");
+        calendarService.expandRecurringEvent(recurringEvent).forEach(e ->
+                System.out.println(e.getTitle() + " at " + e.getStart())
+        );
     }
 }
