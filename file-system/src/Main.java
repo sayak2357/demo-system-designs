@@ -6,18 +6,21 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("Hello and welcome to File System Demo");
 
-        Directory movieDirectory = new Directory("Movies");
+        Directory root = new Directory("Movies");
 
-        FileSystem border = new File("Border");
+        File border = new File("Border");
+        root.add(border);
 
-        movieDirectory.add(border);
+        Directory comedy = new Directory("Comedy");
+        comedy.add(new File("Hulchul"));
+        comedy.add(new File("Hera Pheri"));
 
-        Directory comedyMovieDirectory = new Directory("ComedyMovies");
-        File hulchul = new File("Hulchul");
-        comedyMovieDirectory.add(hulchul);
+        Directory action = new Directory("Action");
+        action.add(new File("Gladiator"));
 
-        movieDirectory.add(comedyMovieDirectory);
+        root.add(comedy);
+        root.add(action);
 
-        movieDirectory.ls();
+        root.ls(""); // Start with no indentation
     }
 }

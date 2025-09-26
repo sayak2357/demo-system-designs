@@ -12,7 +12,7 @@ public class File implements FileSystem{
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    public void ls(){
+    public void ls(String indent){
         System.out.println("file name: "+fileName);
     }
 }

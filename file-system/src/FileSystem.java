@@ -1,3 +1,3 @@
 public interface FileSystem {
-    public void ls();
+    void ls(String indent); // Pass indentation for hierarchy
 }
