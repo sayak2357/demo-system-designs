@@ -1,13 +1,14 @@
 package com.uber.model;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import com.uber.observer.Observer;
 
 /**
  * Thread-safe driver model:
  * - availability is AtomicBoolean
  * - location is volatile and updated via updateLocation()
  */
-public class Driver {
+public class Driver implements Observer{
     private final String id;
     private final String name;
     private volatile Location location;
@@ -42,6 +43,10 @@ public class Driver {
 
     public void setAvailable(boolean available) {
         isAvailable.set(available);
+    }
+    @Override
+    public void update(String message) {
+        System.out.println("Notification for Driver " + name + ": " + message);
     }
 
     @Override

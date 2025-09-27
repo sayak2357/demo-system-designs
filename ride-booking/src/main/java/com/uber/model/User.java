@@ -1,9 +1,10 @@
 package com.uber.model;
 
-public class User {
-    private final String id;
-    private final String name;
-    private volatile Location location;
+import com.uber.observer.Observer;
+
+public class User implements Observer {
+    private String id, name;
+    private Location location;
 
     public User(String id, String name, Location location) {
         this.id = id;
@@ -11,16 +12,22 @@ public class User {
         this.location = location;
     }
 
-    public String getId() { return id; }
-    public String getName() { return name; }
-    public Location getLocation() { return location; }
+    public String getId() {
+        return id;
+    }
 
-    public void updateLocation(Location location) {
-        this.location = location;
+    public String getName() {
+        return name;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     @Override
-    public String toString() {
-        return "User{" + id + "," + name + '}';
+    public void update(String message) {
+        System.out.println("Notification for User " + name + ": " + message);
     }
+
+
 }

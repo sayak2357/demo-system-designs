@@ -1,38 +1,28 @@
 package com.uber.service;
 
-import com.uber.model.Driver;
-import com.uber.model.User;
+import com.uber.observer.Notifier;
+import com.uber.observer.Observer;
 
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-/**
- * Very small notification service. In a real system you'd integrate push notifications / SMS / websockets.
- * This class allows registering callbacks for drivers and users.
- */
-public class NotificationService {
-    private final List<Consumer<String>> listeners = new CopyOnWriteArrayList<>();
+public class NotificationService implements Notifier {
+    private final List<Observer> observers = new CopyOnWriteArrayList<>();
 
-    public void registerListener(Consumer<String> listener) {
-        listeners.add(listener);
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
     }
 
-    public void removeListener(Consumer<String> listener) {
-        listeners.remove(listener);
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
     }
 
-    public void notifyAll(String message) {
-        for (Consumer<String> l : listeners) {
-            try { l.accept(message); } catch (Exception ignored) {}
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer o : observers) {
+            o.update(message);
         }
-    }
-
-    public void notifyUser(User user, String message) {
-        notifyAll("User[" + user.getId() + "] " + message);
-    }
-
-    public void notifyDriver(Driver driver, String message) {
-        notifyAll("Driver[" + driver.getId() + "] " + message);
     }
 }

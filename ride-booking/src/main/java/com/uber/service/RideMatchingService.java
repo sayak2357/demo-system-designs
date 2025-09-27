@@ -17,6 +17,7 @@ public class RideMatchingService {
     public RideMatchingService(List<Driver> initialDrivers) {
         this.helper = new HelperServices();
         this.drivers = new CopyOnWriteArrayList<>(initialDrivers);
+
     }
 
     public void addDriver(Driver d) { drivers.addIfAbsent(d); }
@@ -47,4 +48,6 @@ public class RideMatchingService {
         // if failed (race), you could retry; keep it simple for LLD
         return null;
     }
+
+
 }
