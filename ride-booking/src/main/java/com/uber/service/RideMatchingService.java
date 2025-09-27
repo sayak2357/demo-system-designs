@@ -4,26 +4,47 @@ import com.uber.model.Driver;
 import com.uber.model.Location;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Simple matching service using a thread-safe driver pool.
+ * For large scale, replace with spatial index (quadtree / k-d tree) or geo-hash buckets.
+ */
 public class RideMatchingService {
-    private HelperServices helperServices;
-    private List<Driver> drivers;
+    private final HelperServices helper;
+    private final CopyOnWriteArrayList<Driver> drivers; // thread-safe snapshot semantics
 
-    public RideMatchingService(List<Driver> drivers) {
-        this.helperServices = new HelperServices();
-        this.drivers = drivers;
+    public RideMatchingService(List<Driver> initialDrivers) {
+        this.helper = new HelperServices();
+        this.drivers = new CopyOnWriteArrayList<>(initialDrivers);
     }
-    public Driver findNearestAvailableDriver(Location pickup){
-        Driver matchedDriver = null;
-        double minDistance = Double.MAX_VALUE;
-        for(Driver driver:this.drivers){
-            double dist = helperServices.distanceTo(pickup,driver.getLocation());
-            if(dist<minDistance && driver.isAvailable()){
-                matchedDriver = driver;
-                minDistance = dist;
-                break;
+
+    public void addDriver(Driver d) { drivers.addIfAbsent(d); }
+    public void removeDriver(Driver d) { drivers.remove(d); }
+
+    /**
+     * Finds nearest driver and attempts to atomically claim them by CAS on availability.
+     * Returns the claimed driver or null if none can be claimed.
+     */
+    public Driver findAndClaimNearestDriver(Location pickup, double maxDistanceAllowed) {
+        Driver best = null;
+        double bestDist = Double.MAX_VALUE;
+
+        for (Driver d : drivers) {
+            if (!d.isAvailable()) continue;
+            double dist = helper.distanceTo(pickup, d.getLocation());
+            if (dist < bestDist && dist <= maxDistanceAllowed) {
+                bestDist = dist;
+                best = d;
             }
         }
-        return matchedDriver;
+
+        if (best == null) return null;
+
+        // attempt to claim
+        boolean claimed = best.compareAndSetAvailable(true, false);
+        if (claimed) return best;
+        // if failed (race), you could retry; keep it simple for LLD
+        return null;
     }
 }

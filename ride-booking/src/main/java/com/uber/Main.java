@@ -1,32 +1,50 @@
 package com.uber;
 
 import com.uber.model.*;
-import com.uber.service.RideMatchingService;
-import com.uber.service.RideService;
+import com.uber.service.*;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.println("Hello and welcome to Uber ride booking service!");
+    public static void main(String[] args) throws InterruptedException {
 
-        Driver d1 = new Driver("d1","Anil",new Location(1.0,5.0));
-        Driver d2 = new Driver("d2","Mohit",new Location(5.0,5.0));
+        System.out.println("Welcome to Quick ride demo!");
 
-        RideMatchingService matcher = new RideMatchingService(List.of(d1,d2));
+        Driver d1 = new Driver("d1", "Anil", new Location(1.0, 5.0));
+        Driver d2 = new Driver("d2", "Mohit", new Location(5.0, 5.0));
+        Driver d3 = new Driver("d3", "Ravi", new Location(1.5, 5.2));
 
-        RideService rideService = new RideService(matcher);
-        User user = new User("u1","Sayak",new Location(1.2,6.6));
-        RideRequest request = new RideRequest(user,user.getLocation(),new Location(10,10));
+        RideMatchingService matchingService = new RideMatchingService(List.of(d1, d2, d3));
+        NotificationService notifications = new NotificationService();
 
-        Ride ride = rideService.requestRide(request);
-        System.out.println("Ride assigned to driver: "+ride.getDriver().getName());
+        // simple listener that prints notifications
+        Consumer<String> printer = System.out::println;
+        notifications.registerListener(printer);
 
-        rideService.updateRideStatus(ride.getId(), RideStatus.IN_PROGRESS);
-        rideService.updateRideStatus(ride.getId(), RideStatus.COMPLETED);
+        RideService rideService = new RideService(matchingService, notifications);
+
+        User user = new User("u1","Sayak", new Location(1.2, 5.1));
+        RideRequest req = new RideRequest(user, user.getLocation(), new Location(10,10));
+
+        try {
+            Ride ride = rideService.requestRide(req);
+            System.out.println("Ride created: " + ride);
+
+            // Accepting/starting/completing
+            boolean s1 = rideService.updateRideStatus(ride.getId(), RideStatus.ACCEPTED);
+            System.out.println("Accepted ok: " + s1 + ", status: " + ride.getStatus());
+
+            boolean s2 = rideService.updateRideStatus(ride.getId(), RideStatus.IN_PROGRESS);
+            System.out.println("In progress ok: " + s2 + ", status: " + ride.getStatus());
+
+            boolean s3 = rideService.updateRideStatus(ride.getId(), RideStatus.COMPLETED);
+            System.out.println("Completed ok: " + s3 + ", status: " + ride.getStatus());
+
+        } catch (RuntimeException e) {
+            System.out.println("Could not create ride: " + e.getMessage());
+        } finally {
+            notifications.removeListener(printer);
+        }
     }
 }

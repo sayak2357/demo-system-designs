@@ -1,19 +1,17 @@
 package com.uber.model;
 
+/**
+ * Simple 2D location. For demo we use Euclidean distance; replace with Haversine for geo coords.
+ */
 public class Location {
-    private double latitude, longitued;
+    private final double latitude;
+    private final double longitude;
 
-    public Location(double latitude, double longitued) {
+    public Location(double latitude, double longitude) {
         this.latitude = latitude;
-        this.longitued = longitued;
+        this.longitude = longitude;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitued() {
-        return longitued;
-    }
-
+    public double getLatitude() { return latitude; }
+    public double getLongitude() { return longitude; }
 }

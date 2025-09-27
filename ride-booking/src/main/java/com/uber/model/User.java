@@ -1,8 +1,9 @@
 package com.uber.model;
 
 public class User {
-    private String id, name;
-    private Location location;
+    private final String id;
+    private final String name;
+    private volatile Location location;
 
     public User(String id, String name, Location location) {
         this.id = id;
@@ -10,15 +11,16 @@ public class User {
         this.location = location;
     }
 
-    public String getId() {
-        return id;
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public Location getLocation() { return location; }
+
+    public void updateLocation(Location location) {
+        this.location = location;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Location getLocation() {
-        return location;
+    @Override
+    public String toString() {
+        return "User{" + id + "," + name + '}';
     }
 }
