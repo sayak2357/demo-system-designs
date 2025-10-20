@@ -20,6 +20,7 @@ public class Main {
         List<ParkingSlot> floor1Slots = Arrays.asList(new ParkingSlot(1, VehicleType.CAR),
                                                         new ParkingSlot(2,VehicleType.CAR),
                                                         new ParkingSlot(3,VehicleType.BIKE));
+
         ParkingFloor parkingFloor1 = new ParkingFloor(1,floor1Slots);
         ParkingLot parkingLot = new ParkingLot(List.of(parkingFloor1));
         MonitoringService monitoringService = new MonitoringService();
