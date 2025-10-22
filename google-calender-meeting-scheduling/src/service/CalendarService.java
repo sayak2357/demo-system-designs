@@ -113,6 +113,6 @@ public class CalendarService {
         }
     }
     public boolean isOutsideWorkingHours(LocalDateTime start, LocalDateTime end, User u){
-        return start.isAfter(u.getWorkingHourStart().minusSeconds(1)) && end.isBefore(u.getWorkingHourEnd().plusSeconds(1));
+        return !(start.isAfter(u.getWorkingHourStart().minusSeconds(1)) && end.isBefore(u.getWorkingHourEnd().plusSeconds(1)));
     }
 }
