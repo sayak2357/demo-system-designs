@@ -1,5 +1,5 @@
 package com.splitwise.model;
 
 public enum SplitType {
-    EQUAL,EXACT,PERCENTGE;
+    EQUAL,EXACT,PERCENTAGE;
 }
