@@ -1,0 +1,51 @@
+# buy/sell stocks
+# buy/sell at MARKET/LIMIT rates
+# interact with stock exchange BSR/NSE
+
+
+UML diagram
+classes:
+
+1. OrderManager
+    - orderValidator()
+    - orderExecutioner()
+    placeOrder(userId,order details...)
+2. OrderValidator
+    validateOrder(userId,orderId) // check user has balance during buy, check user portfolio has stock when selling
+3. Order
+    -- transactionType (limit,market)
+    -- orderType (buy/sell)
+    -- exchange (NSE/BSE)
+    -- quantity
+    -- price
+
+4. UserManager
+   - map<id,User>
+   + getUserInfo(id)
+5. User
+   -- id
+   -- Name
+   -- watchList
+6. Account
+    -- userId
+    -- portfolioStocks
+    -- money(balance)
+
+7. ExchangeConnector            (talks with Exchange) (singleton pattern)
+    + getInstance()
+    + placeOrder()
+
+8. OrderExecutioner            (talks with ExchangeConnector, saves order details)
+    + placeOrder(userId,Order)
+
+9. Stock
+    -- name
+    -- price
+    -- exchange(NSE/BSE)
+
+10. MarketData         (talks with ExchangeConnector and keeps track of latest stock market data)
+    - map<Id, Stock>
+
+ToDo:
+1. Stock sell implementation.
+2.add stocks to portfolio/portfolio management
