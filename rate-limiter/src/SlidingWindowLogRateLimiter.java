@@ -15,9 +15,7 @@ public class SlidingWindowLogRateLimiter implements RateLimiterStrategy{
     }
     public boolean allowRequest(String userId){
         long now = System.currentTimeMillis();
-        if(!userRequestMap.containsKey(userId)){
-            userRequestMap.put(userId,new LinkedList<>());
-        }
+        userRequestMap.putIfAbsent(userId,new LinkedList<>());
         Deque<Long> timestamps = userRequestMap.get(userId);
 
         synchronized (timestamps) {

@@ -32,7 +32,7 @@ public class Board {
     public boolean checkWin(int row, int col, Cell player){
         boolean isWin = true;
 
-        // check rows for same value
+        // check rows in given column for same value
         for(int r=0;r<this.size;r++){
             if(this.board[r][col]!=player){
                 isWin = false;
@@ -42,7 +42,7 @@ public class Board {
         if(isWin) return true;
 
 
-        // check cols for same value
+        // check cols for given row for same value
         isWin = true;
         for(int c=0;c<this.size;c++){
             if(this.board[row][c]!=player){

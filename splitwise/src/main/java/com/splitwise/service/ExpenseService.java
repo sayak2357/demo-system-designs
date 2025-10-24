@@ -47,7 +47,7 @@ public class ExpenseService {
                 expenseNotifier.registerObserver(borrower);
                 observers.add(borrower);
                 break;
-            case PERCENTGE: percentage = ((PercentageSplit) split).getPercentage();
+            case PERCENTAGE: percentage = ((PercentageSplit) split).getPercentage();
                             size = beneficiaryIds.size();
                             share = amount*percentage/100;
                             for(int borrowerId:beneficiaryIds){
