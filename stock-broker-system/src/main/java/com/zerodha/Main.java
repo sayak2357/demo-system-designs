@@ -16,5 +16,8 @@ public class Main {
 
         OrderManager orderManager = new OrderManager(accountManager);
         orderManager.placeOrder(user1.getUserId(),order);
+
+        Order sellOrder = new Order(TXN_TYPE.SELL,ORDER_TYPE.LIMIT,100d,5,stock,EXCH.NSE);
+        orderManager.placeOrder(user1.getUserId(), sellOrder);
     }
 }

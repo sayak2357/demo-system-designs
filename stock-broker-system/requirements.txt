@@ -46,6 +46,5 @@ classes:
 10. MarketData         (talks with ExchangeConnector and keeps track of latest stock market data)
     - map<Id, Stock>
 
-ToDo:
-1. Stock sell implementation.
-2.add stocks to portfolio/portfolio management
+Summary:
+currently stocks are sold and added to portfolio bypassing interactions with exchange

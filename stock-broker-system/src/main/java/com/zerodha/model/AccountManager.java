@@ -1,11 +1,13 @@
 package com.zerodha.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AccountManager {
     private Map<String, Double> balanceMap;  //userId -- balance
-    private Map<String,Map<String,UserStock>> stockMap;  // userId -- Map<Stockname,Stock-quantity>
+    private Map<String, Map<String,Integer>> stockMap;  // userId -- Map<Stockname,quantity>
 
     public AccountManager() {
         this.balanceMap = new HashMap<>();
@@ -30,24 +32,37 @@ public class AccountManager {
             this.balanceMap.put(userId,this.balanceMap.get(userId)-amount);
         }
     }
-   public synchronized void addStock(String userId,Order order){
-
+   public synchronized void addStockToPortfolio(String userId,Order order){
+        Stock stock = order.getStock();
+        int quantity = order.getQuantity();
+        if(stockMap.get(userId).containsKey(stock.getName())){
+            int oldQuantity = stockMap.get(userId).get(stock.getName());
+            stockMap.get(userId).put(stock.getName(),oldQuantity+quantity);
+        }
+        else{
+            stockMap.get(userId).put(stock.getName(),quantity);
+        }
    }
-    private static class UserStock{
-        private Stock stock;
-        private int quantity;
 
-        public UserStock(Stock stock, int quantity) {
-            this.stock = stock;
-            this.quantity = quantity;
+    public synchronized void removeStockFromPortfolio(String userId,Order order){
+        if(!order.getTxnType().equals(TXN_TYPE.SELL)){
+            System.out.println("invalid operation");
+            return;
         }
-
-        public Stock getStock() {
-            return stock;
-        }
-
-        public int getQuantity() {
-            return quantity;
+        Stock stock = order.getStock();
+        int quantity = order.getQuantity();
+        if(stockMap.get(userId).containsKey(stock.getName())){
+            int oldQuantity = stockMap.get(userId).get(stock.getName());
+            if(oldQuantity<quantity){
+                System.out.println("not enough stocks to sell");
+                return;
+            }
+            stockMap.get(userId).put(stock.getName(),oldQuantity-quantity);
         }
     }
+
+    public synchronized int getStockQuantity(String userId, Stock stock){
+        return stockMap.get(userId).getOrDefault(stock.getName(),0);
+    }
+
 }

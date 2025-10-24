@@ -18,11 +18,23 @@ public class OrderValidator {
             }
             else{
                 accountManager.debit(userId, totalOrderPurchaseCost);
+                accountManager.addStockToPortfolio(userId,order);
                 res = true;
             }
         }
         else{
+            Stock toSell = order.getStock();
+            int quantity = order.getQuantity();
             System.out.println("checking if user has stock to sell");
+            int portfolioQuantity = accountManager.getStockQuantity(userId,toSell);
+            if(quantity>portfolioQuantity){
+                System.out.println("not enough stocks in portfolio to sell");
+            }
+            else{
+                res = true;
+                accountManager.removeStockFromPortfolio(userId,order);
+            }
+
         }
         return res;
     }
