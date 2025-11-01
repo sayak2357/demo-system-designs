@@ -1,0 +1,15 @@
+/*
+Notes & possible extensions (LLD considerations):
+1) Persistence: Replace in-memory MatchRepository with DB-backed repositories (Postgres/Cassandra) and an append-only event store for ball events.
+2) Scaling: Use per-match queues (Kafka topics sharded by matchId) to maintain ordering and horizontal scale. Use Redis or in-memory caches (CDN) for
+read-heavy APIs.
+3) Real-time: Integrate WebSockets or server-sent events; use a push gateway to fan-out updates to millions of clients (e.g., using scaled workers and
+websocket server clusters).
+4) Analytics: Publish BallEvent messages to analytics pipeline (Kafka -> Flink/Spark) for advanced stats.
+5) Fault tolerance: Use durable write-ahead logs, idempotency keys for event submission, and leader/follower setup for match processing.
+6) Security: Auth & rate-limiting for APIs; token-based subscription for premium feeds.
+7) Testing: Unit test ScoreService/MatchService; add contract tests for event ordering.
+
+This LLD focuses on clarity, thread-safety for scoreboard updates, and a simple publish-subscribe model for live updates. It can be extended to include
+player statistics aggregation services, highlights generator, video-sync metadata, and push notifications for personalized user feeds.
+*/
