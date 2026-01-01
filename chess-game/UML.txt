@@ -1,0 +1,43 @@
++--------------------------------------------------+
+|                  ChessGame                       |
++--------------------------------------------------+
+| - Board board                                    |
+| - Color currentTurn                              |
+| - GameStatus status                              |
+| - Color winner                                   |
++--------------------------------------------------+
+| + makeMove(from: Position, to: Position): boolean|
+| - isCheckmate(color: Color): boolean             |
+| - noLegalMoves(color: Color): boolean            |
++------------------------+-------------------------+
+                         |
+                         v
++--------------------------------------------------+
+|                     Board                        |
++--------------------------------------------------+
+| - Piece[8][8] board                              |
++--------------------------------------------------+
+| + getPiece(p: Position): Piece                  |
+| + setPiece(p: Position, piece: Piece)           |
+| + movePiece(from: Position, to: Position)       |
+| + isPathClear(from, to): boolean                |
+| + findKing(color): Position                     |
+| + isKingInCheck(color): boolean                 |
++------------------------+-------------------------+
+                         |
+                         v
++--------------------------------------------------+
+|                     Piece                        |   <<Strategy>>
++--------------------------------------------------+
+| # Color color                                    |
+| # Position position                              |
+| # boolean killed                                 |
++--------------------------------------------------+
+| + canMove(board: Board, to: Position): boolean   |
++------------------+-----+------+-----+------------+
+                   |     |      |     |
+     ---------------------------------------------------------------
+     |        |         |         |          |         |           |
+  King     Queen      Rook      Bishop     Knight     Pawn
+     |        |         |         |          |         |
+(dx<=1) (R+B) (Row/Col) (Diagonal) (L-shape) (Directional)
