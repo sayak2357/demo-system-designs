@@ -1,0 +1,65 @@
+PARKING LOT
+
+--> parking Slots
+--> Issue parking ticket
+--> Allocate a parking slot based on Type/Size
+--> Available slots information
+--> Payment collection(when vehicle exits)
+--> Process ticket
+
+Non-functional requirements
+
+--> Extensible (like addition of new payment method)
+--> Extensible in supporting adding new vehicle types.
+--> Our cdoe should be modular ie loose coupling amog classes
+
+
+
+
+Data Model
+
+1) Parking Slot
+	--> ID
+	--> Slot Type
+	--> Vehicle
+
+2) SLOT-TYPE:Enum
+	BIKE,SUV,HATCHBACK,TRUCK
+	--> Width
+	--> Length
+
+3) Vehicle
+	--> License plate Number
+	--> Vehicl-Type
+
+4) Vehicle-Type: Enum
+ 	Bike,HatchBack,SUV,Truck
+ 	--> Width
+ 	--> Length
+
+5) Ticket-Status:Enum
+	IN_PROGRESS,
+	UNPAID,
+
+6) ParkingTicket
+	--> entryTime
+	--> exitTime
+	--> parkingSlot
+	--> ticketId
+	--> amount
+	--> TicketStatus
+	--> Vehicle
+	--> PaymentAttempts[]
+
+7) Payment <Abstract>
+	--> PaymentDetails
+
+8) PaymentDetails <Abstract>
+
+9) PaymentStatus: Enum
+	SUCCESSFUL,FAILED
+
+10 PaymentAttempt
+		--> payment
+		--> paymentStatus
+		--> AttemptTime (epoch value)
