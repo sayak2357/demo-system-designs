@@ -44,7 +44,7 @@ public class RideMatchingService {
 
         // attempt to claim
         boolean claimed = best.compareAndSetAvailable(true, false);
-        if (claimed) return best;
+        if (cllockedSeatsaimed) return best;
         // if failed (race), you could retry; keep it simple for LLD
         return null;
     }

@@ -1,6 +1,6 @@
 # buy/sell stocks
 # buy/sell at MARKET/LIMIT rates
-# interact with stock exchange BSR/NSE
+# interact with stock exchange BSE/NSE
 
 
 UML diagram
