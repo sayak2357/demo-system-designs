@@ -1,0 +1,72 @@
+TASK SCHEDULER — INTERVIEW QUESTIONS AND ANSWERS
+
+1.  What data structure did you use and why? Answer: I used a
+    PriorityQueue to keep tasks sorted by execution time so the
+    scheduler can always pick the earliest task efficiently in O(log N).
+
+2.  How does the scheduler thread work? Answer: A dedicated scheduler
+    thread monitors the queue. It waits until the next task’s scheduled
+    time and then submits it to a worker thread pool for execution.
+
+3.  How do you ensure thread safety? Answer: I used a ReentrantLock and
+    Condition to synchronize access to the queue and coordinate between
+    threads without busy waiting.
+
+4.  Why use ExecutorService? Answer: ExecutorService manages a pool of
+    worker threads, allowing task execution asynchronously while reusing
+    threads efficiently.
+
+5.  How would you support recurring tasks? Answer: Add an interval field
+    to the task. After execution, reinsert the task into the queue with
+    the next scheduled time.
+
+6.  How would you implement task cancellation? Answer: Maintain a Map of
+    taskId to task and a cancelled flag. Before execution, check if the
+    task is cancelled and skip if needed.
+
+7.  How would you persist tasks across restarts? Answer: Store tasks in
+    a database or durable queue and reload them on service startup.
+
+8.  What happens if many tasks are scheduled? Answer: The queue grows.
+    We can shard schedulers, partition tasks, or use distributed
+    scheduling to scale.
+
+9.  Why not use ScheduledExecutorService? Answer:
+    ScheduledExecutorService works for simple cases. A custom scheduler
+    provides more control for features like persistence, prioritization,
+    and custom retry logic.
+
+10. How do you avoid busy waiting? Answer: Using Condition.await()
+    allows the scheduler thread to sleep efficiently until a task
+    arrives or its execution time is reached.
+
+11. What are potential bottlenecks? Answer: Single scheduler thread,
+    large queue size, and worker pool saturation.
+
+12. How would you handle worker failure? Answer: Implement retries with
+    backoff and optionally move failed tasks to a dead letter queue.
+
+13. How do you prevent starvation? Answer: Use fair scheduling or
+    priority adjustments to ensure tasks eventually execute.
+
+14. How would you handle clock drift? Answer: Use a monotonic clock or
+    synchronize system time with NTP.
+
+15. How would you scale this system? Answer: Use a distributed queue
+    (Kafka/Redis), multiple scheduler nodes, and task partitioning.
+
+16. What monitoring would you add? Answer: Metrics for queue size, task
+    latency, execution failures, and worker utilization.
+
+17. How would you add task priority? Answer: Extend the task object with
+    priority and modify comparison logic in the PriorityQueue.
+
+18. How do you handle long running tasks? Answer: Use timeouts, separate
+    worker pools, or task isolation to prevent blocking.
+
+19. What happens if scheduler crashes? Answer: Recover tasks from
+    persistent storage and resume scheduling.
+
+20. What tradeoffs did you make? Answer: Simple design with a single
+    scheduler thread for clarity vs scalability. Can evolve to
+    distributed later.
