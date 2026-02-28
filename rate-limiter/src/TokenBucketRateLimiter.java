@@ -21,9 +21,9 @@ public class TokenBucketRateLimiter implements RateLimiterStrategy {
         long currTime = System.currentTimeMillis();
 
         // initialize user bucket if absent
-        userBuckets.putIfAbsent(userId, new UserBucket(capacity, currTime));
-        UserBucket bucket = userBuckets.get(userId);
-
+        UserBucket bucket =
+                userBuckets.computeIfAbsent(userId,
+                        k -> new UserBucket(capacity, currTime));
         synchronized (bucket) { // synchronize per-user bucket
             // refill tokens based on time elapsed
             long elapsedSeconds = (currTime - bucket.lastRefillTimestamp) / 1000;
@@ -53,3 +53,4 @@ public class TokenBucketRateLimiter implements RateLimiterStrategy {
         }
     }
 }
+// In production, idle users should be evicted periodically

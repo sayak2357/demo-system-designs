@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdfa99f9-8573-41e7-aeff-7d35c35c3151" name="Changes" comment="" />
+    <list default="true" id="fdfa99f9-8573-41e7-aeff-7d35c35c3151" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/rate-limiter/Q&amp;A.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rate-limiter/src/SlidingWindowLogRateLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rate-limiter/src/SlidingWindowLogRateLimiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rate-limiter/src/TokenBucketRateLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rate-limiter/src/TokenBucketRateLimiter.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,9 +15,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2xqaNDZwZnDY46pYA4XvW2sNrpH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -22,11 +27,23 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/gly/learn/demo-system-designs"
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/gly/learn/demo-system-designs",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="fdfa99f9-8573-41e7-aeff-7d35c35c3151" name="Changes" comment="" />
@@ -34,7 +51,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748668015543</updated>
+      <workItem from="1768744992497" duration="1245000" />
+      <workItem from="1768839037512" duration="341000" />
+      <workItem from="1768923045612" duration="1466000" />
+      <workItem from="1769009563514" duration="599000" />
+      <workItem from="1769094980397" duration="1870000" />
+      <workItem from="1769313760923" duration="599000" />
+      <workItem from="1769438542153" duration="599000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

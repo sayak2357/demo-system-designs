@@ -1,0 +1,27 @@
+# Why not use ConcurrentLinkedDeque?
+Correct answer:
+Because we need compound atomic operations (check + remove + add).
+Even concurrent collections don’t make multi-step logic atomic.
+So we still need synchronization.
+
+# userRequestMap & UserBucket will grow forever. How to handle in production?
+ans:
+In real-world systems, we would add idle-user eviction using scheduled cleanup or
+TTL-based eviction.
+
+
+# How would you scale this to distributed environment?
+
+ans:
+Replace in-memory store with Redis
+Use Lua scripts for atomic token updates
+Or use Redis INCR + EXPIRE
+Or use distributed locking
+
+# What are limitations?
+ans:
+Memory growth for inactive users
+Sliding window log O(N)
+Token bucket precision loss in second-level granularity
+No distributed coordination
+

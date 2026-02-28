@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SlidingWindowLogRateLimiter implements RateLimiterStrategy{
-    private int maxRequests;
-    private long windowMillis;
-    private Map<String, Deque<Long>> userRequestMap;
+    private final int maxRequests;
+    private final long windowMillis;
+    private final Map<String, Deque<Long>> userRequestMap;
 
     public SlidingWindowLogRateLimiter(int maxRequests, long windowSeconds) {
         this.maxRequests = maxRequests;
@@ -15,8 +15,8 @@ public class SlidingWindowLogRateLimiter implements RateLimiterStrategy{
     }
     public boolean allowRequest(String userId){
         long now = System.currentTimeMillis();
-        userRequestMap.putIfAbsent(userId,new LinkedList<>());
-        Deque<Long> timestamps = userRequestMap.get(userId);
+        Deque<Long> timestamps =
+                userRequestMap.computeIfAbsent(userId, k -> new LinkedList<>());
 
         synchronized (timestamps) {
             long limit = now - this.windowMillis;
@@ -31,3 +31,4 @@ public class SlidingWindowLogRateLimiter implements RateLimiterStrategy{
         }
     }
 }
+// In production, idle users should be evicted periodically
