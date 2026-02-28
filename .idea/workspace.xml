@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="fdfa99f9-8573-41e7-aeff-7d35c35c3151" name="Changes" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/rate-limiter/src/FixedWindowRateLimiter.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 63759d352a33246df7064583e3dba2c70eb6f02d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +36,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+<<<<<<< HEAD
     "last_opened_file_path": "/home/gly/learn/demo-system-designs",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
@@ -41,6 +49,12 @@
       </set>
     </attachedChunks>
   </component>
+=======
+    "last_opened_file_path": "C:/Users/chowdhurysa/learn/multi-threading-java"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+>>>>>>> 63759d352a33246df7064583e3dba2c70eb6f02d
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="fdfa99f9-8573-41e7-aeff-7d35c35c3151" name="Changes" comment="" />
