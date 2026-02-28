@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdfa99f9-8573-41e7-aeff-7d35c35c3151" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/rate-limiter/Q&amp;A.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rate-limiter/src/SlidingWindowLogRateLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rate-limiter/src/SlidingWindowLogRateLimiter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rate-limiter/src/TokenBucketRateLimiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rate-limiter/src/TokenBucketRateLimiter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rate-limiter/src/FixedWindowRateLimiter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
