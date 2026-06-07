@@ -43,3 +43,74 @@ ConcurrentHashMap makes single operations thread-safe, but when I need multiple
 related steps (like checking seat availability, locking, and confirming a booking) to behave atomically,
 I still wrap them in synchronized. That way, I get both performance for frequent map operations and
 correctness for critical booking workflows.
+
+Improvements for V1:
+2. Theatre Entity Slightly Weak
+
+Current:
+
+Theatre
+-> List<Movie>
+-> List<Show>
+
+Usually:
+
+Theatre
+   -> Screens
+
+Screen
+   -> Shows
+
+Because:
+same movie can run on:
+
+multiple screens
+different timings
+
+This hierarchy matters.
+
+1. VERY Important Modeling Improvement
+
+Current:
+
+Show
+   -> List<Seat>
+
+Problem:
+Seats themselves are static templates.
+
+Availability/lock/booking are:
+
+show-specific.
+
+Cleaner real-world modeling becomes:
+
+Screen
+   -> Seats
+
+Show
+   -> ShowSeats
+
+where:
+
+ShowSeat
+   -> Seat
+   -> booking state
+
+This is a VERY important production-style insight.
+
+Why This Matters
+
+Because:
+same physical seat exists across:
+
+multiple shows
+different timings
+
+So:
+
+availability belongs to show occurrence
+
+NOT global seat.
+
+This is one of the MOST important BookMyShow modeling concepts.
